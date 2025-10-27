@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía Completa: CNN - Redes Neuronales Convolucionales</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .section {
+            padding: 40px 30px;
+            border-bottom: 3px solid #f0f0f0;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .cnn-explanation {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .cnn-explanation p {
+            font-size: 1.05em;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .architecture-box {
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .architecture-box strong {
+            color: #667eea;
+        }
+
+        .component {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+            align-items: center;
+        }
+
+        .component-text {
+            font-size: 1.05em;
+        }
+
+        .component-text h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
+        .dataset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .dataset-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            border-radius: 10px;
+            padding: 25px;
+            border: 2px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dataset-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .dataset-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: -25px -25px 15px -25px;
+            text-align: center;
+        }
+
+        .dataset-header h4 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .dataset-level {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .dataset-content p {
+            margin: 10px 0;
+            font-size: 1em;
+        }
+
+        .dataset-label {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .metrics-box {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .metric-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 3px solid #667eea;
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .comparison-table th {
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        .comparison-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 1em;
+        }
+
+        .comparison-table tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        .comparison-table tbody tr:hover {
+            background-color: #f5f7fa;
+        }
+
+        .comparison-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .precision-high {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .precision-medium {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .precision-low {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-block code {
+            color: #f8f8f2;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #f1fa8c; }
+        .function { color: #8be9fd; }
+        .number { color: #bd93f9; }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff5e1 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: #ff6f00;
+            margin-bottom: 10px;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .success-box h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background: #2d3436;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.95em;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .info-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .component {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .comparison-table {
+                font-size: 0.85em;
+            }
+
+            .comparison-table th, .comparison-table td {
+                padding: 10px;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <h1>🧠 Redes Neuronales Convolucionales (CNN)</h1>
+            <p>Infografía Completa: Arquitectura, Datasets, Resultados y Análisis Comparativo</p>
+        </header>
+
+        <!-- SECCIÓN 1: ¿QUÉ SON LAS CNN? -->
+        <div class="section">
+            <h2>📖 ¿Qué son las Redes Neuronales Convolucionales (CNN)?</h2>
+            
+            <div class="cnn-explanation">
+                <p>
+                    <strong>Las Redes Neuronales Convolucionales (CNN)</strong> son una arquitectura especializada de Deep Learning diseñada para procesar datos que tienen una estructura de cuadrícula, principalmente imágenes. Utilizan operaciones matemáticas llamadas <strong>convoluciones</strong> para extraer características visuales de las imágenes de manera jerárquica y automática.
+                </p>
+                <p>
+                    A diferencia de las redes neuronales tradicionales (MLP - Multilayer Perceptron) que requieren aplanar completamente la imagen, las CNN preservan la estructura espacial de los datos. Esto las hace extraordinariamente eficientes para tareas de <strong>visión artificial</strong>, como clasificación de imágenes, detección de objetos, segmentación semántica y reconocimiento de patrones visuales.
+                </p>
+                <p>
+                    Las CNN han revolucionado campos como conducción autónoma, medicina (diagnóstico por imagen), comercio electrónico (búsqueda por imagen), redes sociales y sistemas de vigilancia. Su éxito radica en la capacidad de aprender automáticamente las características más relevantes sin intervención manual.
+                </p>
+            </div>
+
+            <h3>🔧 Componentes Principales de una CNN</h3>
+
+            <div class="component">
+                <div class="component-text">
+                    <h4>1️⃣ Capas de Convolución (Conv2D)</h4>
+                    <p>
+                        La capa convolucional es el corazón de cualquier CNN. Aplica múltiples <strong>filtros (kernels)</strong> sobre la imagen de entrada. Cada filtro es una matriz pequeña (típicamente 3×3 o 5×5) que se desliza sobre la imagen, realizando operaciones matemáticas que detectan características como bordes, texturas y patrones más complejos en capas posteriores.
+                    </p>
+                    <div class="metrics-box">
+                        <strong>Parámetro clave:</strong> Número de filtros determina cuántas características se extraen. Valores típicos: 32, 64, 128.
+                    </div>
+                </div>
+                <div class="architecture-box">
+                    <code>
+Conv2D(32, (3, 3), activation='relu')<br>
+Conv2D(64, (3, 3), activation='relu')<br>
+Conv2D(128, (3, 3), activation='relu')
+                    </code>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-text">
+                    <h4>2️⃣ Capas de Pooling (MaxPooling2D)</h4>
+                    <p>
+                        El pooling reduce las dimensiones espaciales de los mapas de características. <strong>MaxPooling</strong> toma el valor máximo en una región pequeña (típicamente 2×2), reduciendo el tamaño del mapa mientras preserva las características más importantes. Esto reduce la cantidad de parámetros y acelera el entrenamiento.
+                    </p>
+                    <div class="metrics-box">
+                        <strong>Beneficios:</strong> Reduce overfitting, acelera cálculos, proporciona invarianza espacial.
+                    </div>
+                </div>
+                <div class="architecture-box">
+                    <code>
+MaxPooling2D((2, 2))<br>
+# Reduce 28×28 → 14×14<br>
+# Reduce 14×14 → 7×7
+                    </code>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-text">
+                    <h4>3️⃣ Batch Normalization</h4>
+                    <p>
+                        <strong>Batch Normalization</strong> normaliza las entradas de cada capa durante el entrenamiento. Estabiliza el aprendizaje, permite tasas de aprendizaje más altas, y actúa como un regularizador débil, reduciendo la dependencia de los pesos inicializados aleatoriamente.
+                    </p>
+                    <div class="metrics-box">
+                        <strong>Ventaja:</strong> Acelera convergencia y mejora generalización significativamente.
+                    </div>
+                </div>
+                <div class="architecture-box">
+                    <code>
+layers.BatchNormalization()<br>
+# Normaliza activaciones<br>
+# Acelera entrenamiento
+                    </code>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-text">
+                    <h4>4️⃣ Dropout (Regularización)</h4>
+                    <p>
+                        <strong>Dropout</strong> desactiva aleatoriamente una fracción de neuronas durante el entrenamiento (típicamente 0.2-0.5). Esto previene co-adaptación excesiva entre neuronas y es una técnica fundamental para reducir <strong>overfitting</strong>, mejorando la capacidad de generalización del modelo en datos nuevos.
+                    </p>
+                    <div class="metrics-box">
+                        <strong>Regla práctica:</strong> Aumentar dropout (0.4-0.5) si hay overfitting severo.
+                    </div>
+                </div>
+                <div class="architecture-box">
+                    <code>
+layers.Dropout(0.25)  # 25% de neuronas<br>
+layers.Dropout(0.5)   # 50% de neuronas<br>
+# Solo activo durante entrenamiento
+                    </code>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-text">
+                    <h4>5️⃣ Capas Totalmente Conectadas (Dense) y Softmax</h4>
+                    <p>
+                        Después de extraer características con convoluciones y pooling, las características se aplastan en un vector. Las capas densas (fully connected) toman este vector y realizan clasificación final mediante transformaciones lineales seguidas de funciones de activación. <strong>Softmax</strong> convierte las salidas en probabilidades normalizadas para cada clase.
+                    </p>
+                    <div class="metrics-box">
+                        <strong>Estructura típica:</strong> Flatten → Dense(256, relu) → Dropout → Dense(num_classes, softmax)
+                    </div>
+                </div>
+                <div class="architecture-box">
+                    <code>
+layers.Flatten()<br>
+layers.Dense(256, activation='relu')<br>
+layers.Dropout(0.5)<br>
+layers.Dense(10, activation='softmax')
+                    </code>
+                </div>
+            </div>
+
+            <h3>🎯 Flujo de Datos en una CNN Típica</h3>
+            <div class="architecture-box">
+                <p>
+                    <strong>Imagen de Entrada (28×28×1)</strong>
+                    ↓<br>
+                    <strong>Conv2D(32 filtros 3×3)</strong> → Imagen: 26×26×32
+                    ↓<br>
+                    <strong>MaxPooling2D(2×2)</strong> → Imagen: 13×13×32
+                    ↓<br>
+                    <strong>Conv2D(64 filtros 3×3)</strong> → Imagen: 11×11×64
+                    ↓<br>
+                    <strong>MaxPooling2D(2×2)</strong> → Imagen: 5×5×64
+                    ↓<br>
+                    <strong>Flatten</strong> → Vector: 1,600 elementos
+                    ↓<br>
+                    <strong>Dense(128, relu)</strong> → Vector: 128 elementos
+                    ↓<br>
+                    <strong>Dense(10, softmax)</strong> → Probabilidades: 10 clases
+                </p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: DATASETS -->
+        <div class="section">
+            <h2>📊 Descripción Detallada de los Datasets</h2>
+
+            <div class="dataset-grid">
+                <!-- PRUEBA 1: FASHION-MNIST -->
+                <div class="dataset-card">
+                    <div class="dataset-header">
+                        <h4>👕 Fashion-MNIST</h4>
+                        <div class="dataset-level">Nivel: Fácil</div>
+                    </div>
+                    <div class="dataset-content">
+                        <p><span class="dataset-label">Objetivo:</span> Clasificar 10 categorías de prendas de vestir en imágenes de escala de grises.</p>
+                        
+                        <p><span class="dataset-label">📈 Características:</span></p>
+                        <ul style="margin-left: 15px; margin-bottom: 10px;">
+                            <li>70,000 imágenes totales (60,000 entrenamiento, 10,000 prueba)</li>
+                            <li>Tamaño: 28×28 píxeles en escala de grises (1 canal)</li>
+                            <li>10 clases: Camiseta, Pantalón, Jersey, Vestido, Abrigo, Sandalia, Camisa, Zapatilla, Bolso, Botín</li>
+                            <li>Datos limpios y bien balanceados</li>
+                        </ul>
+
+                        <p><span class="dataset-label">🎯 Aplicación Práctica:</span> Sistemas de recomendación de moda, e-commerce, inventarios automatizados.</p>
+
+                        <p><span class="dataset-label">🔍 Por qué es "Fácil":</span> Imágenes simples, fondo uniforme, sin ruido o distorsión significativa.</p>
+
+                        <div class="metrics-box">
+                            <strong>Precisión Lograda: <span class="precision-high">91.23%</span></strong><br>
+                            Superó la meta de 85% establecida.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRUEBA 2: CIFAR-10 -->
+                <div class="dataset-card">
+                    <div class="dataset-header">
+                        <h4>🚗 CIFAR-10</h4>
+                        <div class="dataset-level">Nivel: Intermedio-Bajo</div>
+                    </div>
+                    <div class="dataset-content">
+                        <p><span class="dataset-label">Objetivo:</span> Clasificar objetos cotidianos reales en 10 categorías usando imágenes a color.</p>
+                        
+                        <p><span class="dataset-label">📈 Características:</span></p>
+                        <ul style="margin-left: 15px; margin-bottom: 10px;">
+                            <li>60,000 imágenes totales (50,000 entrenamiento, 10,000 prueba)</li>
+                            <li>Tamaño: 32×32 píxeles a color (3 canales RGB)</li>
+                            <li>10 clases: Avión, Automóvil, Pájaro, Gato, Ciervo, Perro, Rana, Caballo, Barco, Camión</li>
+                            <li>Imágenes con variabilidad real, orientaciones diferentes, parcialmente ocluidas</li>
+                        </ul>
+
+                        <p><span class="dataset-label">🎯 Aplicación Práctica:</span> Sistemas de clasificación de objetos, conducción autónoma, vigilancia inteligente.</p>
+
+                        <p><span class="dataset-label">⚠️ Desafío:</span> Mayor complejidad visual que Fashion-MNIST; objetos en diferentes ángulos, scales y contextos.</p>
+
+                        <div class="metrics-box">
+                            <strong>Precisión Lograda: <span class="precision-medium">74.50%</span></strong><br>
+                            ⚠️ Quedó 0.50% por debajo de la meta de 75%.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRUEBA 3: SVHN -->
+                <div class="dataset-card">
+                    <div class="dataset-header">
+                        <h4>🏘️ SVHN (Street View House Numbers)</h4>
+                        <div class="dataset-level">Nivel: Intermedio</div>
+                    </div>
+                    <div class="dataset-content">
+                        <p><span class="dataset-label">Objetivo:</span> Clasificar dígitos (0-9) en imágenes reales de números de viviendas tomadas de Google Street View.</p>
+                        
+                        <p><span class="dataset-label">📈 Características:</span></p>
+                        <ul style="margin-left: 15px; margin-bottom: 10px;">
+                            <li>~600,000 imágenes totales (cropped a 32×32 píxeles)</li>
+                            <li>Formato: imágenes RGB a color de números reales en fotografías urbanas</li>
+                            <li>10 clases: Dígitos 0-9</li>
+                            <li>Mayor variabilidad: diferentes iluminaciones, ángulos, fondos complejos, parcialmente borrados</li>
+                        </ul>
+
+                        <p><span class="dataset-label">🎯 Aplicación Práctica:</span> OCR (Reconocimiento Óptico de Caracteres), lectura automática de direcciones, mapas inteligentes, sistemas de navegación.</p>
+
+                        <p><span class="dataset-label">🌍 Puente Importante:</span> Representa un punto medio entre datos sintéticos (MNIST) y completamente del mundo real, demostrando transición a problemas prácticos.</p>
+
+                        <div class="metrics-box">
+                            <strong>Precisión Lograda: <span class="precision-high">93.82%</span></strong><br>
+                            Superó ampliamente la meta de 85%.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRUEBA 4: EMNIST -->
+                <div class="dataset-card">
+                    <div class="dataset-header">
+                        <h4>✍️ EMNIST Balanced</h4>
+                        <div class="dataset-level">Nivel: Intermedio-Alto</div>
+                    </div>
+                    <div class="dataset-content">
+                        <p><span class="dataset-label">Objetivo:</span> Clasificar caracteres manuscritos alfanuméricos (letras mayúsculas, minúsculas y dígitos) en 47 clases.</p>
+                        
+                        <p><span class="dataset-label">📈 Características:</span></p>
+                        <ul style="margin-left: 15px; margin-bottom: 10px;">
+                            <li>~750,000 imágenes totales (versión "Balanced" con 47 clases)</li>
+                            <li>Tamaño: 28×28 píxeles en escala de grises</li>
+                            <li>47 clases: Dígitos (0-9) + Letras mayúsculas (A-Z) + Letras minúsculas (a-z)</li>
+                            <li>Mayor complejidad por número de clases y similitud entre caracteres</li>
+                        </ul>
+
+                        <p><span class="dataset-label">🎯 Aplicación Práctica:</span> OCR manuscrito, digitalización de documentos, procesamiento de formularios escritos a mano, accesibilidad.</p>
+
+                        <p><span class="dataset-label">🎲 Desafío Multiclase:</span> 47 clases vs 10 en MNIST; similitud visual entre "l" y "1", "O" y "0", etc.</p>
+
+                        <div class="metrics-box">
+                            <strong>Precisión Lograda: <span class="precision-high">87.89%</span></strong><br>
+                            Superó la meta de 80%.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRUEBA 5: TINY IMAGENET -->
+                <div class="dataset-card">
+                    <div class="dataset-header">
+                        <h4>🖼️ Tiny ImageNet</h4>
+                        <div class="dataset-level">Nivel: Avanzado</div>
+                    </div>
+                    <div class="dataset-content">
+                        <p><span class="dataset-label">Objetivo:</span> Clasificar imágenes en 200 clases usando Transfer Learning con MobileNetV2 preentrenado.</p>
+                        
+                        <p><span class="dataset-label">📈 Características:</span></p>
+                        <ul style="margin-left: 15px; margin-bottom: 10px;">
+                            <li>~100,000 imágenes totales (64,000 entrenamiento, 10,000 validación, 10,000 prueba)</li>
+                            <li>Tamaño: 64×64 píxeles a color (ampliadas a 96×96 para MobileNetV2)</li>
+                            <li>200 clases: Objetos diversos (animales, instrumentos, vehículos, etc.)</li>
+                            <li>Benchmark intermedio entre CIFAR-10 y ImageNet completo (1000 clases)</li>
+                        </ul>
+
+                        <p><span class="dataset-label">🎯 Aplicación Práctica:</span> Clasificación a gran escala, búsqueda de imágenes, visión robótica, reconocimiento de objetos en conducción autónoma.</p>
+
+                        <p><span class="dataset-label">🚀 Técnica Especial:</span> Uso de Transfer Learning + Fine-tuning para aprovechar conocimiento preentrenado en ImageNet.</p>
+
+                        <div class="metrics-box">
+                            <strong>Precisión Lograda: <span class="precision-medium">59.35%</span></strong><br>
+                            ⚠️ Quedó 0.65% por debajo de la meta de 60%. 200 clases representan mayor complejidad.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRUEBA 6: PLANTVILLAGE -->
+                <div class="dataset-card">
+                    <div class="dataset-header">
+                        <h4>🌱 PlantVillage</h4>
+                        <div class="dataset-level">Nivel: Aplicado</div>
+                    </div>
+                    <div class="dataset-content">
+                        <p><span class="dataset-label">Objetivo:</span> Detectar enfermedades en plantas mediante clasificación multiclase de imágenes de hojas.</p>
+                        
+                        <p><span class="dataset-label">📈 Características:</span></p>
+                        <ul style="margin-left: 15px; margin-bottom: 10px;">
+                            <li>54,303 imágenes totales de hojas de plantas fotografiadas en laboratorio</li>
+                            <li>Tamaño: Variable (~256×256) redimensionadas a 224×224 para MobileNetV2</li>
+                            <li>38 clases: Combinación de 14 especies × estado de salud/enfermedad</li>
+                            <li>Imágenes reales con variabilidad de iluminación, ángulos, fondos</li>
+                        </ul>
+
+                        <p><span class="dataset-label">🎯 Aplicación Práctica:</span> Diagnóstico agrícola automatizado, detección temprana de enfermedades, agricultura sostenible, soporte a agricultores en regiones en desarrollo.</p>
+
+                        <p><span class="dataset-label">💚 Impacto Social:</span> Problema real y socialmente relevante que beneficia a la agricultura y seguridad alimentaria.</p>
+
+                        <div class="metrics-box">
+                            <strong>Precisión Lograda: <span class="precision-high">86.03%</span></strong><br>
+                            Superó la meta de 85%.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: ARQUITECTURA DETALLADA POR PRUEBA -->
+        <div class="section">
+            <h2>⚙️ Arquitectura y Código Python de Cada Prueba</h2>
+
+            <h3>Prueba 1 & 2: Fashion-MNIST y CIFAR-10 (Arquitecturas CNN Básicas)</h3>
+            <div class="code-block">
+<span class="keyword">model</span> = models.Sequential([
+    layers.Input(shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)),
+    
+    <span class="comment"># Bloque 1: Convolución + Pooling</span>
+    layers.Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">'relu'</span>),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D((<span class="number">2</span>, <span class="number">2</span>)),
+    layers.Dropout(<span class="number">0.25</span>),
+    
+    <span class="comment"># Bloque 2: Convolución + Pooling</span>
+    layers.Conv2D(<span class="number">64</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">'relu'</span>),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D((<span class="number">2</span>, <span class="number">2</span>)),
+    layers.Dropout(<span class="number">0.3</span>),
+    
+    <span class="comment"># Capas Densas</span>
+    layers.Flatten(),
+    layers.Dense(<span class="number">128</span>, activation=<span class="string">'relu'</span>),
+    layers.Dropout(<span class="number">0.3</span>),
+    layers.Dense(<span class="number">10</span>, activation=<span class="string">'softmax'</span>)
+])
+
+model.compile(
+    optimizer=<span class="string">'adam'</span>,
+    loss=<span class="string">'sparse_categorical_crossentropy'</span>,
+    metrics=[<span class="string">'accuracy'</span>]
+)
+            </div>
+
+            <h3>Prueba 3 & 4: SVHN y EMNIST (Arquitecturas CNN Profundas)</h3>
+            <div class="code-block">
+<span class="keyword">model</span> = models.Sequential([
+    layers.Input(shape=(<span class="number">32</span>, <span class="number">32</span>, <span class="number">3</span>)),
+    
+    <span class="comment"># Bloque 1</span>
+    layers.Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">'relu'</span>, padding=<span class="string">'same'</span>),
+    layers.BatchNormalization(),
+    layers.Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">'relu'</span>, padding=<span class="string">'same'</span>),
+    layers.MaxPooling2D((<span class="number">2</span>, <span class="number">2</span>)),
+    layers.Dropout(<span class="number">0.25</span>),
+    
+    <span class="comment"># Bloque 2</span>
+    layers.Conv2D(<span class="number">64</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">'relu'</span>, padding=<span class="string">'same'</span>),
+    layers.BatchNormalization(),
+    layers.Conv2D(<span class="number">64</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">'relu'</span>, padding=<span class="string">'same'</span>),
+    layers.MaxPooling2D((<span class="number">2</span>, <span class="number">2</span>)),
+    layers.Dropout(<span class="number">0.25</span>),
+    
+    <span class="comment"># Bloque 3 (SVHN/EMNIST es más profundo)</span>
+    layers.Conv2D(<span class="number">128</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">'relu'</span>, padding=<span class="string">'same'</span>),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D((<span class="number">2</span>, <span class="number">2</span>)),
+    layers.Dropout(<span class="number">0.4</span>),
+    
+    layers.Flatten(),
+    layers.Dense(<span class="number">256</span>, activation=<span class="string">'relu'</span>),
+    layers.Dropout(<span class="number">0.5</span>),
+    layers.Dense(<span class="number">47</span>, activation=<span class="string">'softmax'</span>)  <span class="comment"># 47 para EMNIST, 10 para SVHN</span>
+])
+            </div>
+
+            <h3>Prueba 5 & 6: Transfer Learning (Tiny ImageNet y PlantVillage)</h3>
+            <div class="code-block">
+<span class="comment"># Cargar modelo preentrenado</span>
+base_model = applications.MobileNetV2(
+    input_shape=(<span class="number">224</span>, <span class="number">224</span>, <span class="number">3</span>),
+    include_top=<span class="keyword">False</span>,
+    weights=<span class="string">'imagenet'</span>
+)
+
+<span class="comment"># Congelar capas base inicialmente</span>
+base_model.trainable = <span class="keyword">False</span>
+
+<span class="comment"># Agregar cabeza personalizada</span>
+model = models.Sequential([
+    base_model,
+    layers.GlobalAveragePooling2D(),
+    layers.BatchNormalization(),
+    layers.Dense(<span class="number">1024</span>, activation=<span class="string">'relu'</span>),
+    layers.Dropout(<span class="number">0.5</span>),
+    layers.Dense(<span class="number">512</span>, activation=<span class="string">'relu'</span>),
+    layers.Dropout(<span class="number">0.3</span>),
+    layers.Dense(<span class="number">200</span>, activation=<span class="string">'softmax'</span>)  <span class="comment"># 200 para Tiny ImageNet</span>
+])
+
+<span class="comment"># FASE 1: Entrenamiento con base congelada</span>
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=<span class="number">0.001</span>),
+    loss=<span class="string">'categorical_crossentropy'</span>,
+    metrics=[<span class="string">'accuracy'</span>]
+)
+history1 = model.fit(train_data, epochs=<span class="number">25</span>, validation_data=val_data)
+
+<span class="comment"># FASE 2: Fine-tuning - Descongelar últimas capas</span>
+base_model.trainable = <span class="keyword">True</span>
+<span class="keyword">for</span> layer <span class="keyword">in</span> base_model.layers[:-<span class="number">30</span>]:
+    layer.trainable = <span class="keyword">False</span>
+
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=<span class="number">0.0001</span>),
+    loss=<span class="string">'categorical_crossentropy'</span>,
+    metrics=[<span class="string">'accuracy'</span>]
+)
+history2 = model.fit(train_data, epochs=<span class="number">15</span>, validation_data=val_data)
+            </div>
+
+            <h3>Técnicas Utilizadas en Todas las Pruebas</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>📊 Normalización</h4>
+                    <p>Dividir por 255.0 para llevar valores a rango [0, 1], mejorando estabilidad del entrenamiento.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🔄 Data Augmentation</h4>
+                    <p>Rotaciones, zoom, flip horizontal/vertical para aumentar variedad de datos y reducir overfitting.</p>
+                </div>
+                <div class="info-card">
+                    <h4>⏸️ Callbacks</h4>
+                    <p>ReduceLROnPlateau, EarlyStopping para optimizar entrenamiento dinámicamente.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🔧 Optimizador Adam</h4>
+                    <p>Combina ventajas de momentum y RMSprop, muy efectivo para redes profundas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: RESULTADOS DETALLADOS -->
+        <div class="section">
+            <h2>📈 Resultados y Métricas por Prueba</h2>
+
+            <h3>Prueba 1: Fashion-MNIST</h3>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-label">Precisión Final</div>
+                    <div class="metric-value precision-high">91.23%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Meta Establecida</div>
+                    <div class="metric-value" style="color: #ff9800;">≥ 85%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Estado</div>
+                    <div class="metric-value precision-high">✓ CUMPLE</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Épocas</div>
+                    <div class="metric-value">10</div>
+                </div>
+            </div>
+            <div class="success-box">
+                <h4>✅ Análisis: Fashion-MNIST</h4>
+                <p>El modelo alcanzó <strong>91.23%</strong> de precisión, superando significativamente la meta de 85%. Este excelente rendimiento es esperado debido a la simplicidad del dataset: imágenes limpias, bien balanceadas y fondo uniforme. El modelo aprendió eficientemente las características distintivas de cada prenda de vestir.</p>
+            </div>
+
+            <h3>Prueba 2: CIFAR-10</h3>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-label">Precisión Final</div>
+                    <div class="metric-value precision-medium">74.50%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Meta Establecida</div>
+                    <div class="metric-value" style="color: #ff9800;">≥ 75%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Diferencia</div>
+                    <div class="metric-value precision-low">-0.50%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Épocas</div>
+                    <div class="metric-value">10</div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <h4>⚠️ Análisis: CIFAR-10</h4>
+                <p>El modelo alcanzó <strong>74.50%</strong>, quedando marginalmente (0.50%) por debajo de la meta de 75%. Este resultado refleja la mayor complejidad de CIFAR-10 respecto a Fashion-MNIST: objetos en diferentes ángulos, scales variados, fondos complejos y oclusiones parciales. Con ajustes finos en hiperparámetros o arquitectura más profunda podría alcanzarse la meta.</p>
+                <p><strong>Posibles mejoras:</strong> Aumentar épocas, usar Data Augmentation más agresivo, o arquitectura más profunda (ResNet).</p>
+            </div>
+
+            <h3>Prueba 3: SVHN</h3>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-label">Precisión Final</div>
+                    <div class="metric-value precision-high">93.82%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Meta Establecida</div>
+                    <div class="metric-value" style="color: #ff9800;">≥ 85%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Superó por</div>
+                    <div class="metric-value precision-high">+8.82%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Épocas</div>
+                    <div class="metric-value">10</div>
+                </div>
+            </div>
+            <div class="success-box">
+                <h4>✅ Análisis: SVHN</h4>
+                <p>El modelo alcanzó <strong>93.82%</strong>, muy por encima de la meta de 85%. A pesar de la variabilidad real en datos (iluminación diferente, ángulos, fondos complejos), la CNN de 3 capas logró aprender características robustas. Este resultado demuestra la efectividad de Batch Normalization, Dropout y arquitecturas profundas para datos del mundo real.</p>
+            </div>
+
+            <h3>Prueba 4: EMNIST Balanced</h3>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-label">Precisión Final</div>
+                    <div class="metric-value precision-high">87.89%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Meta Establecida</div>
+                    <div class="metric-value" style="color: #ff9800;">≥ 80%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Superó por</div>
+                    <div class="metric-value precision-high">+7.89%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Clases</div>
+                    <div class="metric-value">47</div>
+                </div>
+            </div>
+            <div class="success-box">
+                <h4>✅ Análisis: EMNIST Balanced</h4>
+                <p>El modelo alcanzó <strong>87.89%</strong> con 47 clases, superando la meta de 80%. La complejidad aumentó significativamente (47 clases vs 10 en MNIST), pero el modelo mantuvo excelente rendimiento. La arquitectura más profunda (3 bloques de convolución) y mayor regularización (dropout hasta 0.5) fueron clave. La similitud entre caracteres (0/O, 1/l) genera confusiones residuales.</p>
+            </div>
+
+            <h3>Prueba 5: Tiny ImageNet</h3>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-label">Precisión Final</div>
+                    <div class="metric-value precision-medium">59.35%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Meta Establecida</div>
+                    <div class="metric-value" style="color: #ff9800;">≥ 60%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Diferencia</div>
+                    <div class="metric-value precision-low">-0.65%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Clases</div>
+                    <div class="metric-value">200</div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <h4>⚠️ Análisis: Tiny ImageNet</h4>
+                <p>El modelo alcanzó <strong>59.35%</strong>, quedando 0.65% por debajo de la meta de 60%. Con 200 clases (vs 10-47 en pruebas anteriores), el desafío es exponencialmente mayor. Transfer Learning con MobileNetV2 fue crucial para evitar peor rendimiento. El fine-tuning selectivo en últimas capas mejoró resultados vs mantener base completamente congelada.</p>
+                <p><strong>Contexto:</strong> 60% en 200 clases es comparable a 90%+ en tareas de 10 clases. Mejoras requieren arquitecturas más profundas (ResNet, EfficientNet) o datasets adicionales.</p>
+            </div>
+
+            <h3>Prueba 6: PlantVillage</h3>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-label">Precisión Final</div>
+                    <div class="metric-value precision-high">86.03%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Meta Establecida</div>
+                    <div class="metric-value" style="color: #ff9800;">≥ 85%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Superó por</div>
+                    <div class="metric-value precision-high">+1.03%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Aplicación</div>
+                    <div class="metric-value">Agrícola</div>
+                </div>
+            </div>
+            <div class="success-box">
+                <h4>✅ Análisis: PlantVillage</h4>
+                <p>El modelo alcanzó <strong>86.03%</strong>, superando la meta de 85%. A pesar del desbalanceo de clases y variabilidad en imágenes reales de hojas, Transfer Learning con MobileNetV2 permitió aprender características discriminativas. Data Augmentation intenso fue esencial. Este resultado demuestra viabilidad de sistemas de diagnóstico agrícola automatizado.</p>
+            </div>
+
+            <h3>Ejercicio Interesante: Evaluación Comparativa MNIST vs SVHN</h3>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-label">Precisión MNIST</div>
+                    <div class="metric-value precision-high">98.85%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Meta MNIST</div>
+                    <div class="metric-value" style="color: #ff9800;">≥ 95%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Precisión SVHN</div>
+                    <div class="metric-value precision-high">84.94%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Meta SVHN</div>
+                    <div class="metric-value" style="color: #ff9800;">≥ 80%</div>
+                </div>
+            </div>
+            <div class="success-box">
+                <h4>✅ Análisis: MNIST vs SVHN</h4>
+                <p>Este ejercicio comparativo es extremadamente revelador. Utilizando <strong>la misma arquitectura CNN</strong>, el modelo logró <strong>98.85%</strong> en MNIST vs <strong>84.94%</strong> en SVHN: una diferencia de casi <strong>14 puntos porcentuales</strong>.</p>
+                <p><strong>Interpretación:</strong> MNIST tiene dígitos manuscritos simples y limpios (fondo blanco, escritura clara). SVHN tiene números reales en fotografías urbanas (iluminación variable, fondos complejos, ángulos diversos). Esta brecha ilustra por qué problemas reales son más desafiantes y por qué Transfer Learning es valioso.</p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 5: TABLA COMPARATIVA COMPLETA -->
+        <div class="section">
+            <h2>📊 Cuadro Comparativo Completo de Todas las Pruebas</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Prueba</th>
+                        <th>Nivel</th>
+                        <th>Dataset</th>
+                        <th>Clases</th>
+                        <th>Tamaño (px)</th>
+                        <th>Canales</th>
+                        <th>Imágenes Totales</th>
+                        <th>Técnicas Clave</th>
+                        <th>Precisión (%)</th>
+                        <th>Meta (%)</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. Fashion-MNIST</strong></td>
+                        <td>Fácil</td>
+                        <td>Prendas de vestir</td>
+                        <td>10</td>
+                        <td>28×28</td>
+                        <td>1 (Gray)</td>
+                        <td>70,000</td>
+                        <td>CNN básica, Dropout</td>
+                        <td><span class="precision-high">91.23</span></td>
+                        <td>≥ 85</td>
+                        <td><span class="status-success">✓ Cumple</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. CIFAR-10</strong></td>
+                        <td>Intermedio-Bajo</td>
+                        <td>Objetos reales</td>
+                        <td>10</td>
+                        <td>32×32</td>
+                        <td>3 (RGB)</td>
+                        <td>60,000</td>
+                        <td>Batch Norm, Dropout, Padding</td>
+                        <td><span class="precision-medium">74.50</span></td>
+                        <td>≥ 75</td>
+                        <td><span class="status-warning">⚠ Margen: -0.50%</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. SVHN</strong></td>
+                        <td>Intermedio</td>
+                        <td>Números urbanos reales</td>
+                        <td>10</td>
+                        <td>32×32</td>
+                        <td>3 (RGB)</td>
+                        <td>~600,000</td>
+                        <td>CNN profunda, Batch Norm, Prefetch</td>
+                        <td><span class="precision-high">93.82</span></td>
+                        <td>≥ 85</td>
+                        <td><span class="status-success">✓ Cumple</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. EMNIST</strong></td>
+                        <td>Intermedio-Alto</td>
+                        <td>Caracteres manuscritos</td>
+                        <td>47</td>
+                        <td>28×28</td>
+                        <td>1 (Gray)</td>
+                        <td>~750,000</td>
+                        <td>CNN profunda, 3 bloques, Regularización alta</td>
+                        <td><span class="precision-high">87.89</span></td>
+                        <td>≥ 80</td>
+                        <td><span class="status-success">✓ Cumple</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>5. Tiny ImageNet</strong></td>
+                        <td>Avanzado</td>
+                        <td>Objetos diversos</td>
+                        <td>200</td>
+                        <td>96×96</td>
+                        <td>3 (RGB)</td>
+                        <td>~100,000</td>
+                        <td>Transfer Learning, MobileNetV2, Fine-tuning</td>
+                        <td><span class="precision-medium">59.35</span></td>
+                        <td>≥ 60</td>
+                        <td><span class="status-warning">⚠ Margen: -0.65%</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>6. PlantVillage</strong></td>
+                        <td>Aplicado</td>
+                        <td>Enfermedades en plantas</td>
+                        <td>38</td>
+                        <td>224×224</td>
+                        <td>3 (RGB)</td>
+                        <td>54,303</td>
+                        <td>Transfer Learning, Data Augmentation intenso</td>
+                        <td><span class="precision-high">86.03</span></td>
+                        <td>≥ 85</td>
+                        <td><span class="status-success">✓ Cumple</span></td>
+                    </tr>
+                    <tr style="background: #f0f4ff; font-weight: bold;">
+                        <td colspan="8">EJERCICIO INTERESANTE: Evaluación Comparativa MNIST vs SVHN</td>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>MNIST</strong></td>
+                        <td>Comparativo</td>
+                        <td>Dígitos manuscritos limpios</td>
+                        <td>10</td>
+                        <td>32×32</td>
+                        <td>1 (Gray)</td>
+                        <td>70,000</td>
+                        <td>CNN estándar, misma arquitectura</td>
+                        <td><span class="precision-high">98.85</span></td>
+                        <td>≥ 95</td>
+                        <td><span class="status-success">✓ Cumple</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>SVHN</strong></td>
+                        <td>Comparativo</td>
+                        <td>Números en contexto real urbano</td>
+                        <td>10</td>
+                        <td>32×32</td>
+                        <td>3 (RGB)</td>
+                        <td>~600,000</td>
+                        <td>CNN estándar, misma arquitectura</td>
+                        <td><span class="precision-high">84.94</span></td>
+                        <td>≥ 80</td>
+                        <td><span class="status-success">✓ Cumple</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box" style="margin-top: 30px;">
+                <h4>📌 Conclusiones del Cuadro Comparativo</h4>
+                <ul style="margin-left: 20px;">
+                    <li><strong>4 de 6 pruebas cumplieron metas:</strong> Fashion-MNIST, SVHN, EMNIST y PlantVillage (66.7% tasa de éxito).</li>
+                    <li><strong>2 pruebas quedaron marginalmente bajo objetivo:</strong> CIFAR-10 (-0.50%) y Tiny ImageNet (-0.65%), indicando que con optimizaciones menores podrían cumplirse.</li>
+                    <li><strong>Relación inversa: complejidad vs precisión:</strong> A mayor complejidad (más clases, datos ruidosos), menor precisión absoluta, pero rendimiento relativo se mantiene sólido.</li>
+                    <li><strong>Transfer Learning es clave para muchas clases:</strong> Tiny ImageNet (200 clases) y PlantVillage (38 clases) demostraron la importancia de leveraging conocimiento preentrenado.</li>
+                    <li><strong>Diferencia MNIST vs SVHN:</strong> 14 puntos porcentuales ilustran impacto de calidad y complejidad de datos en rendimiento final.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 6: INSIGHTS Y RECOMENDACIONES -->
+        <div class="section">
+            <h2>💡 Insights Clave y Recomendaciones</h2>
+
+            <h3>🔍 Hallazgos Principales</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>1. Complejidad de Datos</h4>
+                    <p>La precisión depende más de la complejidad visual del dataset que del tamaño. SVHN (600K imágenes) logró 93.82%, mientras que CIFAR-10 (60K imágenes) logró 74.50%.</p>
+                </div>
+                <div class="info-card">
+                    <h4>2. Escalabilidad de Clases</h4>
+                    <p>Con 200 clases (Tiny ImageNet), la precisión disminuye relativamente menos de lo esperado (59.35%) con Transfer Learning, vs CNN desde cero.</p>
+                </div>
+                <div class="info-card">
+                    <h4>3. Regularización Esencial</h4>
+                    <p>Batch Normalization + Dropout fue crítico en todos los casos. Sin estos, overfitting habría sido severo en datasets pequeños.</p>
+                </div>
+                <div class="info-card">
+                    <h4>4. Aplicaciones Reales Viables</h4>
+                    <p>86% en PlantVillage demuestra que sistemas de diagnóstico automático agrícola son factibles y prácticos.</p>
+                </div>
+            </div>
+
+            <h3>🚀 Recomendaciones para Mejora</h3>
+            <div class="architecture-box">
+                <p><strong>Para CIFAR-10 (Meta no alcanzada):</strong></p>
+                <ul style="margin-left: 15px; margin-top: 10px;">
+                    <li>Aumentar épocas de 10 a 20-30 para mayor convergencia</li>
+                    <li>Implementar arquitectura ResNet o DenseNet más profunda</li>
+                    <li>Aplicar Data Augmentation más agresivo (rotación +25°, zoom +25%)</li>
+                    <li>Reducir Learning Rate inicial de 0.001 a 0.0005</li>
+                    <li>Usar ensemble de múltiples modelos para votación</li>
+                </ul>
+            </div>
+
+            <div class="architecture-box">
+                <p><strong>Para Tiny ImageNet (Meta no alcanzada):</strong></p>
+                <ul style="margin-left: 15px; margin-top: 10px;">
+                    <li>Explorar arquitecturas más potentes: ResNet152, EfficientNetB4</li>
+                    <li>Aumentar épocas de fine-tuning de 15 a 25-30</li>
+                    <li>Usar mixup o cutmix Data Augmentation</li>
+                    <li>Implementar Progressive Resizing (entrenar a resolutions crecientes)</li>
+                    <li>Usar model distillation o knowledge transfer de modelos mayores</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <h4>✨ Mejores Prácticas Identificadas</h4>
+                <ul style="margin-left: 15px;">
+                    <li>Siempre normalizar datos (dividir por 255 para imágenes)</li>
+                    <li>Usar Adam optimizer como default para redes profundas</li>
+                    <li>Implementar Batch Normalization después de convoluciones</li>
+                    <li>Aplicar Dropout progresivo (aumentar en capas posteriores)</li>
+                    <li>Para datasets pequeños (<100K), usar Transfer Learning</li>
+                    <li>Visualizar algunos resultados (confusion matrix) para diagnóstico</li>
+                    <li>Guardar siempre el mejor modelo durante entrenamiento</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <p><strong>Infografía Generada:</strong> Taller 2.5 - Redes Neuronales Convolucionales (CNN)</p>
+            <p><strong>Universidad:</strong> Universidad Andina del Cusco | <strong>Carrera:</strong> Ingeniería de Sistemas</p>
+            <p><strong>Asignatura:</strong> Inteligencia Artificial (10A) | <strong>Docente:</strong> Mg. Ing. Hugo Espetia Huamanga</p>
+            <p><strong>Equipo de Desarrollo:</strong> Blinders | <strong>Año Académico:</strong> 2025-II</p>
+            <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">© 2025 - Todos los derechos reservados. Esta infografía contiene información educativa sobre CNNs.</p>
+        </footer>
+    </div>
+</body>
+</html>
