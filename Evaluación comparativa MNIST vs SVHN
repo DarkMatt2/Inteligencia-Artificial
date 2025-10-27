@@ -1,0 +1,127 @@
+# ===============================================================
+# PROYECTO CRISP-DM — FASE 5: Evaluación comparativa MNIST vs SVHN
+# ===============================================================
+
+import tensorflow as tf
+from tensorflow.keras import layers, models
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.utils import to_categorical
+from scipy.io import loadmat
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+
+# ===============================================================
+# FASE 1 — Comprensión del negocio
+# ===============================================================
+"""
+Objetivo:
+Comparar el rendimiento de una misma arquitectura CNN en dos datasets
+de reconocimiento numérico: MNIST (dígitos manuscritos) y SVHN (números reales en imágenes).
+
+Importancia:
+Esta comparación permite entender cómo la calidad y complejidad visual del dataset
+afectan el rendimiento del mismo modelo, mostrando las diferencias entre datos
+limpios (MNIST) y datos reales más ruidosos (SVHN).
+
+Métrica de éxito:
+Alcanzar ≥ 95% de precisión en MNIST y ≥ 80% en SVHN.
+"""
+
+# ===============================================================
+# FASE 2 — Adquisición y preparación de datos
+# ===============================================================
+
+# --- MNIST ---
+(x_train_mnist, y_train_mnist), (x_test_mnist, y_test_mnist) = mnist.load_data()
+x_train_mnist = np.expand_dims(x_train_mnist, -1) / 255.0
+x_test_mnist = np.expand_dims(x_test_mnist, -1) / 255.0
+y_train_mnist = to_categorical(y_train_mnist, 10)
+y_test_mnist = to_categorical(y_test_mnist, 10)
+
+# --- SVHN ---
+# Dataset oficial (formato .mat de MATLAB)
+svhn_train = loadmat(tf.keras.utils.get_file(
+    "train_32x32.mat", "http://ufldl.stanford.edu/housenumbers/train_32x32.mat"))
+svhn_test = loadmat(tf.keras.utils.get_file(
+    "test_32x32.mat", "http://ufldl.stanford.edu/housenumbers/test_32x32.mat"))
+
+x_train_svhn = np.moveaxis(svhn_train['X'], -1, 0) / 255.0
+x_test_svhn = np.moveaxis(svhn_test['X'], -1, 0) / 255.0
+y_train_svhn = to_categorical(svhn_train['y'] % 10, 10)
+y_test_svhn = to_categorical(svhn_test['y'] % 10, 10)
+
+print("MNIST:", x_train_mnist.shape, "SVHN:", x_train_svhn.shape)
+
+# ===============================================================
+# FASE 3 — Visualización aleatoria
+# ===============================================================
+
+# Mostrar imagen aleatoria de cada dataset
+fig, axes = plt.subplots(1, 2, figsize=(6, 3))
+i1 = random.randint(0, len(x_train_mnist) - 1)
+i2 = random.randint(0, len(x_train_svhn) - 1)
+
+axes[0].imshow(x_train_mnist[i1].squeeze(), cmap="gray")
+axes[0].set_title("MNIST Ejemplo")
+axes[1].imshow(x_train_svhn[i2])
+axes[1].set_title("SVHN Ejemplo")
+for ax in axes: ax.axis("off")
+plt.show()
+
+# ===============================================================
+# FASE 4 — Construcción del modelo CNN
+# ===============================================================
+
+def crear_modelo():
+    modelo = models.Sequential([
+        layers.Conv2D(32, (3,3), activation='relu', input_shape=(32,32,1)),
+        layers.MaxPooling2D(2,2),
+        layers.Conv2D(64, (3,3), activation='relu'),
+        layers.MaxPooling2D(2,2),
+        layers.Flatten(),
+        layers.Dense(128, activation='relu'),
+        layers.Dropout(0.3),
+        layers.Dense(10, activation='softmax')
+    ])
+    modelo.compile(optimizer='adam',
+                   loss='categorical_crossentropy',
+                   metrics=['accuracy'])
+    return modelo
+
+# Adaptar MNIST a 32x32 para igualar tamaño
+x_train_mnist = tf.image.resize(x_train_mnist, [32, 32])
+x_test_mnist = tf.image.resize(x_test_mnist, [32, 32])
+
+# ===============================================================
+# FASE 5 — Entrenamiento y evaluación
+# ===============================================================
+
+# Entrenar modelo para MNIST
+modelo_mnist = crear_modelo()
+print("\nEntrenando modelo con MNIST...")
+modelo_mnist.fit(x_train_mnist, y_train_mnist, epochs=3, batch_size=128, validation_split=0.1)
+mnist_acc = modelo_mnist.evaluate(x_test_mnist, y_test_mnist, verbose=0)[1]
+
+# Entrenar modelo para SVHN
+# Convertir a escala de grises para compatibilidad con la misma arquitectura
+x_train_svhn_gray = tf.image.rgb_to_grayscale(x_train_svhn)
+x_test_svhn_gray = tf.image.rgb_to_grayscale(x_test_svhn)
+
+modelo_svhn = crear_modelo()
+print("\nEntrenando modelo con SVHN...")
+modelo_svhn.fit(x_train_svhn_gray, y_train_svhn, epochs=3, batch_size=128, validation_split=0.1)
+svhn_acc = modelo_svhn.evaluate(x_test_svhn_gray, y_test_svhn, verbose=0)[1]
+
+# ===============================================================
+# FASE 6 — Conclusión y comparación
+# ===============================================================
+
+print("\n==================== RESULTADOS COMPARATIVOS ====================")
+print(f"Precisión en MNIST: {mnist_acc * 100:.2f}%")
+print(f"Precisión en SVHN:  {svhn_acc * 100:.2f}%")
+
+plt.bar(["MNIST", "SVHN"], [mnist_acc, svhn_acc], color=["skyblue", "orange"])
+plt.title("Comparación de rendimiento CNN — MNIST vs SVHN")
+plt.ylabel("Precisión")
+plt.show()
