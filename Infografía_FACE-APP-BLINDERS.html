@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blinders - Sistema de Reconocimiento Facial CNN</title>
+    
+    <!-- Prism.js para syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
     <style>
         * {
             margin: 0;
@@ -13,7 +17,7 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: #333;
             line-height: 1.6;
         }
@@ -30,19 +34,19 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
         
         header h1 {
             font-size: 3em;
-            color: #667eea;
+            color: #1e3c72;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         header .subtitle {
             font-size: 1.3em;
-            color: #764ba2;
+            color: #2a5298;
             font-weight: 300;
         }
         
@@ -69,16 +73,16 @@
             font-size: 1em;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
         .tab-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
         
         .tab-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
         }
         
@@ -101,7 +105,7 @@
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
         }
         
@@ -110,15 +114,15 @@
         }
         
         .card h2 {
-            color: #667eea;
+            color: #1e3c72;
             margin-bottom: 20px;
             font-size: 1.8em;
-            border-bottom: 3px solid #764ba2;
+            border-bottom: 3px solid #2a5298;
             padding-bottom: 10px;
         }
         
         .card h3 {
-            color: #764ba2;
+            color: #2a5298;
             margin: 20px 0 15px 0;
             font-size: 1.3em;
         }
@@ -131,12 +135,12 @@
         }
         
         .metric-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             padding: 25px;
             border-radius: 15px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.4);
         }
         
         .metric-card .value {
@@ -161,13 +165,13 @@
             background: white;
             padding: 20px;
             margin: 15px 0;
-            border-left: 5px solid #667eea;
+            border-left: 5px solid #1e3c72;
             border-radius: 10px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
         
         .flow-step h4 {
-            color: #667eea;
+            color: #1e3c72;
             margin-bottom: 10px;
         }
         
@@ -179,15 +183,64 @@
         }
         
         .tech-item {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
             color: white;
             padding: 20px;
             border-radius: 12px;
             text-align: center;
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+            box-shadow: 0 4px 15px rgba(52, 73, 94, 0.4);
         }
         
+        /* Tabla de arquitectura del modelo */
+        .model-architecture-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #2d2d2d;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .model-architecture-table th {
+            background: #1e3c72;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .model-architecture-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #404040;
+            color: #f8f8f2;
+        }
+        
+        .model-architecture-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .model-architecture-table tr:hover {
+            background: #3a3a3a;
+        }
+        
+        .model-summary {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 0 0 10px 10px;
+            font-family: 'Courier New', monospace;
+            margin-top: -20px;
+        }
+        
+        .model-summary strong {
+            color: #4ec9b0;
+        }
+        
+        /* Tabla de épocas */
         .epoch-table {
             width: 100%;
             border-collapse: collapse;
@@ -199,10 +252,11 @@
         }
         
         .epoch-table th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             padding: 15px;
             text-align: left;
+            font-weight: 600;
         }
         
         .epoch-table td {
@@ -214,22 +268,39 @@
             background: #f8f9fa;
         }
         
-        .code-block {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 20px;
+        .epoch-table tr.final-epoch {
+            background: #e8f4f8;
+            font-weight: 600;
+        }
+        
+        /* Bloques de código con Prism.js */
+        pre[class*="language-"] {
+            margin: 20px 0;
             border-radius: 10px;
-            overflow-x: auto;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        code[class*="language-"] {
             font-size: 0.9em;
+            line-height: 1.6;
+        }
+        
+        .code-label {
+            background: #1e3c72;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px 10px 0 0;
+            font-weight: 600;
+            margin-bottom: -10px;
+            display: inline-block;
         }
         
         .highlight {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
             padding: 3px 8px;
             border-radius: 5px;
             font-weight: 600;
+            color: white;
         }
         
         .badge {
@@ -242,18 +313,18 @@
         }
         
         .badge-success {
-            background: #00b894;
+            background: #27ae60;
             color: white;
         }
         
         .badge-info {
-            background: #0984e3;
+            background: #2980b9;
             color: white;
         }
         
         .badge-warning {
-            background: #fdcb6e;
-            color: #333;
+            background: #f39c12;
+            color: white;
         }
         
         .crisp-phases {
@@ -268,11 +339,11 @@
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-top: 5px solid #667eea;
+            border-top: 5px solid #1e3c72;
         }
         
         .phase-card .phase-number {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             width: 50px;
             height: 50px;
@@ -286,7 +357,7 @@
         }
         
         .phase-card h3 {
-            color: #667eea;
+            color: #1e3c72;
             margin-bottom: 15px;
         }
         
@@ -302,7 +373,7 @@
         
         ul.custom-list li:before {
             content: "▶";
-            color: #667eea;
+            color: #1e3c72;
             position: absolute;
             left: 0;
         }
@@ -524,20 +595,46 @@
                 <h2>🧠 Modelo y Métricas de Entrenamiento</h2>
                 
                 <h3>Arquitectura del Modelo</h3>
-                <div class="code-block">
-Model: "functional"
-┌─────────────────────────────────┬────────────────────────┬─────────────────┐
-│ Layer (type)                    │ Output Shape           │ Param #         │
-├─────────────────────────────────┼────────────────────────┼─────────────────┤
-│ input_layer                     │ (None, 224, 224, 3)    │ 0               │
-│ mobilenetv2_1.00_224 (Func)     │ (None, 7, 7, 1280)     │ 2,257,984       │
-│ global_average_pooling2d        │ (None, 1280)           │ 0               │
-│ dropout (Dropout 0.3)           │ (None, 1280)           │ 0               │
-│ dense (Dense softmax)           │ (None, 4)              │ 5,124           │
-└─────────────────────────────────┴────────────────────────┴─────────────────┘
-Total params: 2,263,108 (8.63 MB)
-Trainable params: 5,124 (20.02 KB)
-Non-trainable params: 2,257,984 (8.61 MB)
+                <table class="model-architecture-table">
+                    <thead>
+                        <tr>
+                            <th>Layer (type)</th>
+                            <th>Output Shape</th>
+                            <th>Param #</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>input_layer (InputLayer)</td>
+                            <td>(None, 224, 224, 3)</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>mobilenetv2_1.00_224 (Functional)</td>
+                            <td>(None, 7, 7, 1280)</td>
+                            <td>2,257,984</td>
+                        </tr>
+                        <tr>
+                            <td>global_average_pooling2d</td>
+                            <td>(None, 1280)</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>dropout (Dropout 0.3)</td>
+                            <td>(None, 1280)</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>dense (Dense softmax)</td>
+                            <td>(None, 4)</td>
+                            <td>5,124</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="model-summary">
+                    <strong>Total params:</strong> 2,263,108 (8.63 MB)<br>
+                    <strong>Trainable params:</strong> 5,124 (20.02 KB)<br>
+                    <strong>Non-trainable params:</strong> 2,257,984 (8.61 MB)
                 </div>
 
                 <h3>📈 Evolución del Entrenamiento (8 Épocas)</h3>
@@ -609,7 +706,7 @@ Non-trainable params: 2,257,984 (8.61 MB)
                             <td>0.1666</td>
                             <td>1m 5s</td>
                         </tr>
-                        <tr style="background: #e8f5e9;">
+                        <tr class="final-epoch">
                             <td><strong>8/8</strong></td>
                             <td><strong>99.25%</strong></td>
                             <td><strong>0.1865</strong></td>
@@ -730,8 +827,8 @@ Non-trainable params: 2,257,984 (8.61 MB)
                 <h2>💻 Fragmentos de Código Clave</h2>
 
                 <h3>🐍 Entrenamiento (Python)</h3>
-                <div class="code-block">
-# Configuración del modelo
+                <div class="code-label">train_tf_recognizer.py</div>
+                <pre>ode classss="language-python"># Configuración del modelo
 CONFIG = {
     'dataset': r'C:/Users/jairo/Downloads/AI/data',
     'output_dir': r'scripts/output',
@@ -769,13 +866,12 @@ model.compile(
 
 # Conversión a TFLite
 converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_dir)
-tflite_model = converter.convert()
-                </div>
+tflite_model = converter.convert()</code></pre>
 
                 <h3>📱 Procesamiento de Frame (Dart/Flutter)</h3>
-                <div class="code-block">
-// Pipeline completo en main.dart
-Future<void> _processCameraImage(CameraImage cameraImage) async {
+                <div class="code-label">main.dart - _processCameraImage()</div>
+                <pre><code class="language-dart">// Pipeline completo en main.dart
+Future&lt;void&gt; _processCameraImage(CameraImage cameraImage) async {
   if (_isProcessing) return;
   _isProcessing = true;
 
@@ -798,12 +894,16 @@ Future<void> _processCameraImage(CameraImage cameraImage) async {
 
     // 3. Crop y resize (Y → RGB)
     final processed = ImageUtils.cropResizeYToRGB(
-      cameraImage, faceBox, INPUT_SIZE, INPUT_SIZE
+      cameraImage, 
+      faceBox, 
+      INPUT_SIZE, 
+      INPUT_SIZE
     );
 
     // 4. Inferencia TFLite
     final probs = TfliteService.run(
-      _interpreter, processed,
+      _interpreter, 
+      processed,
       height: INPUT_SIZE,
       width: INPUT_SIZE,
       channels: 3
@@ -813,18 +913,17 @@ Future<void> _processCameraImage(CameraImage cameraImage) async {
     _frameCounter++;
     if (_frameCounter % UPDATE_FRAMES == 0) {
       setState(() {
-        _displayedProbs = List<double>.from(probs);
+        _displayedProbs = List&lt;double&gt;.from(probs);
       });
     }
   } finally {
     _isProcessing = false;
   }
-}
-                </div>
+}</code></pre>
 
                 <h3>🎨 Painter para Bounding Box</h3>
-                <div class="code-block">
-class FaceBoxPainter extends CustomPainter {
+                <div class="code-label">main.dart - FaceBoxPainter</div>
+                <pre>odede class="language-dart">class FaceBoxPainter extends CustomPainter {
   final RectLike? box;
   final Size? imageSize;
   final bool mirror;
@@ -854,8 +953,12 @@ class FaceBoxPainter extends CustomPainter {
     
     canvas.drawRect(rect, paint);
   }
-}
-                </div>
+
+  @override
+  bool shouldRepaint(covariant FaceBoxPainter oldDelegate) {
+    return oldDelegate.box != box || oldDelegate.imageSize != imageSize;
+  }
+}</code></pre>
 
                 <a href="https://github.com/Musgus/blinders_tflite" target="_blank" class="github-link">
                     🔗 Ver Código Completo en GitHub →
@@ -914,123 +1017,4 @@ class FaceBoxPainter extends CustomPainter {
                 </div>
                 <div class="flow-step">
                     <h4>Dataset Limitado</h4>
-                    <p>✅ <strong>Pro:</strong> Alto rendimiento para el grupo objetivo</p>
-                    <p>⚠️ <strong>Con:</strong> Generalización limitada a poblaciones más amplias</p>
-                </div>
-
-                <h3>🚀 Trabajo Futuro</h3>
-                <div class="crisp-phases">
-                    <div class="phase-card">
-                        <h3>Optimización</h3>
-                        <ul class="custom-list">
-                            <li>Implementar NNAPI/GPU delegate</li>
-                            <li>Cuantización int8</li>
-                            <li>Conversión YUV→RGB completa</li>
-                            <li>Suavizado temporal de predicciones</li>
-                        </ul>
-                    </div>
-                    <div class="phase-card">
-                        <h3>Dataset</h3>
-                        <ul class="custom-list">
-                            <li>Expandir con más imágenes</li>
-                            <li>Mayor diversidad de condiciones</li>
-                            <li>Aumentar variabilidad de poses</li>
-                            <li>Incluir más clases</li>
-                        </ul>
-                    </div>
-                    <div class="phase-card">
-                        <h3>Monitoreo</h3>
-                        <ul class="custom-list">
-                            <li>Telemetría en producción</li>
-                            <li>Detección de model drift</li>
-                            <li>Métricas de usuario</li>
-                            <li>A/B testing</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <h3>💡 Aprendizajes Clave</h3>
-                <ul class="custom-list">
-                    <li><strong>CRISP-DM:</strong> Metodología proporcionó estructura clara y fases bien definidas</li>
-                    <li><strong>Transfer Learning:</strong> MobileNetV2 resultó ideal para dispositivos móviles (balance precisión/eficiencia)</li>
-                    <li><strong>TFLite:</strong> Conversión exitosa sin pérdida significativa de precisión</li>
-                    <li><strong>Flutter:</strong> Desarrollo multiplataforma ágil con excelente rendimiento</li>
-                    <li><strong>ML Kit:</strong> Detección facial robusta y eficiente out-of-the-box</li>
-                </ul>
-
-                <h3>📚 Referencias</h3>
-                <div class="code-block" style="background: #f8f9fa; color: #333;">
-[1] C. Shearer, "The CRISP-DM model: The new blueprint for data mining,"
-    J. Data Warehousing, vol. 5, no. 4, pp. 13-22, 2000.
-
-[2] S. Lawrence, C. L. Giles, A. C. Tsoi, and A. D. Back,
-    "Face recognition: A convolutional neural-network approach,"
-    IEEE Trans. Neural Netw., vol. 8, no. 1, pp. 98-113, Jan. 1997.
-
-[3] Equipo Blinders, "blinders_tflite," GitHub.
-    Available: https://github.com/Musgus/blinders_tflite.
-    Accessed: Nov. 2, 2025.
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            <h3 style="color: #667eea; margin-bottom: 15px;">🎓 Universidad Andina del Cusco</h3>
-            <p><strong>Escuela Profesional de Ingeniería de Sistemas</strong></p>
-            <p>Proyecto: Sistema de Reconocimiento Facial con CNN</p>
-            <p>Metodología: CRISP-DM | Framework: TensorFlow + Flutter</p>
-            <p style="margin-top: 20px; color: #999;">
-                Noviembre 2025 | Cusco, Perú
-            </p>
-        </footer>
-    </div>
-
-    <script>
-        function showTab(tabName) {
-            // Ocultar todas las secciones
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-
-            // Remover active de todos los botones
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            // Mostrar sección seleccionada
-            document.getElementById(tabName).classList.add('active');
-
-            // Activar botón correspondiente
-            event.target.classList.add('active');
-
-            // Scroll suave al inicio
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Animación al hacer scroll
-        window.addEventListener('scroll', () => {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const cardTop = card.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                if (cardTop < windowHeight - 100) {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }
-            });
-        });
-
-        // Inicializar animaciones
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'all 0.6s ease';
-            });
-        });
-    </script>
-</body>
-</html>
+                    <p>✅ <strong>Pro:</strong> Alto
