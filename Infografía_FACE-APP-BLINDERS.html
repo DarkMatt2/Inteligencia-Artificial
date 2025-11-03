@@ -828,7 +828,7 @@
 
                 <h3>🐍 Entrenamiento (Python)</h3>
                 <div class="code-label">train_tf_recognizer.py</div>
-                <pre>ode classss="language-python"># Configuración del modelo
+                <pre><code class="language-python"># Configuración del modelo
 CONFIG = {
     'dataset': r'C:/Users/jairo/Downloads/AI/data',
     'output_dir': r'scripts/output',
@@ -923,7 +923,7 @@ Future&lt;void&gt; _processCameraImage(CameraImage cameraImage) async {
 
                 <h3>🎨 Painter para Bounding Box</h3>
                 <div class="code-label">main.dart - FaceBoxPainter</div>
-                <pre>odede class="language-dart">class FaceBoxPainter extends CustomPainter {
+                <pre><code class="language-dart">class FaceBoxPainter extends CustomPainter {
   final RectLike? box;
   final Size? imageSize;
   final bool mirror;
@@ -1017,4 +1017,126 @@ Future&lt;void&gt; _processCameraImage(CameraImage cameraImage) async {
                 </div>
                 <div class="flow-step">
                     <h4>Dataset Limitado</h4>
-                    <p>✅ <strong>Pro:</strong> Alto
+                    <p>✅ <strong>Pro:</strong> Alto rendimiento para el grupo objetivo</p>
+                    <p>⚠️ <strong>Con:</strong> Generalización limitada a poblaciones más amplias</p>
+                </div>
+
+                <h3>🚀 Trabajo Futuro</h3>
+                <div class="crisp-phases">
+                    <div class="phase-card">
+                        <h3>Optimización</h3>
+                        <ul class="custom-list">
+                            <li>Implementar NNAPI/GPU delegate</li>
+                            <li>Cuantización int8</li>
+                            <li>Conversión YUV→RGB completa</li>
+                            <li>Suavizado temporal de predicciones</li>
+                        </ul>
+                    </div>
+                    <div class="phase-card">
+                        <h3>Dataset</h3>
+                        <ul class="custom-list">
+                            <li>Expandir con más imágenes</li>
+                            <li>Mayor diversidad de condiciones</li>
+                            <li>Aumentar variabilidad de poses</li>
+                            <li>Incluir más clases</li>
+                        </ul>
+                    </div>
+                    <div class="phase-card">
+                        <h3>Monitoreo</h3>
+                        <ul class="custom-list">
+                            <li>Telemetría en producción</li>
+                            <li>Detección de model drift</li>
+                            <li>Métricas de usuario</li>
+                            <li>A/B testing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>💡 Aprendizajes Clave</h3>
+                <ul class="custom-list">
+                    <li><strong>CRISP-DM:</strong> Metodología proporcionó estructura clara y fases bien definidas</li>
+                    <li><strong>Transfer Learning:</strong> MobileNetV2 resultó ideal para dispositivos móviles (balance precisión/eficiencia)</li>
+                    <li><strong>TFLite:</strong> Conversión exitosa sin pérdida significativa de precisión</li>
+                    <li><strong>Flutter:</strong> Desarrollo multiplataforma ágil con excelente rendimiento</li>
+                    <li><strong>ML Kit:</strong> Detección facial robusta y eficiente out-of-the-box</li>
+                </ul>
+
+                <h3>📚 Referencias</h3>
+                <pre style="background: #f8f9fa; color: #333; padding: 20px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 0.9em;">[1] C. Shearer, "The CRISP-DM model: The new blueprint for data mining,"
+    J. Data Warehousing, vol. 5, no. 4, pp. 13-22, 2000.
+
+[2] S. Lawrence, C. L. Giles, A. C. Tsoi, and A. D. Back,
+    "Face recognition: A convolutional neural-network approach,"
+    IEEE Trans. Neural Netw., vol. 8, no. 1, pp. 98-113, Jan. 1997.
+
+[3] Equipo Blinders, "blinders_tflite," GitHub.
+    Available: https://github.com/Musgus/blinders_tflite.
+    Accessed: Nov. 2, 2025.</pre>
+            </div>
+        </div>
+
+        <footer>
+            <h3 style="color: #1e3c72; margin-bottom: 15px;">🎓 Universidad Andina del Cusco</h3>
+            <p><strong>Escuela Profesional de Ingeniería de Sistemas</strong></p>
+            <p>Proyecto: Sistema de Reconocimiento Facial con CNN</p>
+            <p>Metodología: CRISP-DM | Framework: TensorFlow + Flutter</p>
+            <p style="margin-top: 20px; color: #999;">
+                Noviembre 2025 | Cusco, Perú
+            </p>
+        </footer>
+    </div>
+
+    <!-- Prism.js para syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-dart.min.js"></script>
+
+    <script>
+        function showTab(tabName) {
+            // Ocultar todas las secciones
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remover active de todos los botones
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Mostrar sección seleccionada
+            document.getElementById(tabName).classList.add('active');
+
+            // Activar botón correspondiente
+            event.target.classList.add('active');
+
+            // Scroll suave al inicio
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Animación al hacer scroll
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (cardTop < windowHeight - 100) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Inicializar animaciones
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+            });
+        });
+    </script>
+</body>
+</html>
