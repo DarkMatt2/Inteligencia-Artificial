@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Willay - Infografía Interactiva</title>
+    <title>Chatbot Willay - Infografía Profesional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -13,38 +14,100 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
+            background: #f0f4f8;
+            color: #1a2332;
+            line-height: 1.6;
         }
 
-        /* Header */
+        /* Header Principal */
         header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #0047AB 0%, #1e6ec8 50%, #3b82f6 100%);
             color: white;
-            padding: 40px 20px;
+            padding: 80px 40px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
 
         header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
         }
 
         header p {
-            font-size: 1.1em;
+            font-size: 1.3em;
             opacity: 0.95;
+            margin-bottom: 20px;
         }
 
-        /* Navigation */
+        .header-url {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.4);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header-url:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .header-url a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Navegación */
         nav {
-            background: #1e293b;
+            background: linear-gradient(135deg, #0047AB 0%, #1e6ec8 100%);
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 71, 171, 0.15);
+            backdrop-filter: blur(10px);
         }
 
         .nav-container {
@@ -59,16 +122,31 @@
         nav a {
             color: white;
             text-decoration: none;
-            padding: 15px 25px;
+            padding: 16px 28px;
             display: block;
-            transition: background-color 0.3s;
-            font-weight: 500;
+            transition: all 0.3s;
+            font-weight: 600;
             border-bottom: 3px solid transparent;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #fbbf24;
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
         }
 
         nav a:hover, nav a.active {
-            background-color: #3b82f6;
-            border-bottom: 3px solid #fbbf24;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         /* Container */
@@ -78,25 +156,26 @@
             padding: 40px 20px;
         }
 
-        /* Sections */
+        /* Secciones */
         section {
             background: white;
-            border-radius: 12px;
-            padding: 40px;
-            margin: 30px 0;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 50px;
+            margin: 40px 0;
+            box-shadow: 0 10px 40px rgba(0, 71, 171, 0.08);
             display: none;
-            animation: fadeIn 0.5s ease-in;
+            animation: slideIn 0.5s ease-out;
+            border-top: 5px solid #0047AB;
         }
 
         section.active {
             display: block;
         }
 
-        @keyframes fadeIn {
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -104,225 +183,331 @@
             }
         }
 
+        /* Sección Header */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 12px;
+            border-left: 5px solid #0047AB;
+        }
+
+        .section-header-icon {
+            font-size: 3.5em;
+            color: #0047AB;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .section-header-content h3 {
+            color: #0047AB;
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+
+        .section-header-content p {
+            color: #555;
+            font-size: 0.95em;
+        }
+
         section h2 {
-            color: #1e3a8a;
-            font-size: 2.5em;
+            color: #0047AB;
+            font-size: 2.8em;
             margin-bottom: 30px;
-            border-bottom: 3px solid #3b82f6;
-            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        section h2 i {
+            color: #3b82f6;
         }
 
         section h3 {
-            color: #3b82f6;
-            font-size: 1.5em;
-            margin-top: 30px;
-            margin-bottom: 15px;
+            color: #1e6ec8;
+            font-size: 1.6em;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 10px;
         }
 
         /* Grid */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
         }
 
+        /* Cards */
         .card {
-            background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
-            padding: 25px;
-            border-radius: 10px;
-            border-left: 4px solid #3b82f6;
-            transition: transform 0.3s, box-shadow 0.3s;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid #0047AB;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 71, 171, 0.08);
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 71, 171, 0.15);
+            border-left-color: #3b82f6;
         }
 
         .card h4 {
-            color: #1e3a8a;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+            color: #0047AB;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .card p {
             color: #555;
-            line-height: 1.6;
-        }
-
-        /* Metrics */
-        .metric {
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            margin: 15px 0;
-            border: 2px solid #3b82f6;
-        }
-
-        .metric-value {
-            font-size: 2em;
-            color: #1e3a8a;
-            font-weight: bold;
-        }
-
-        .metric-label {
-            color: #555;
-            margin-top: 10px;
+            line-height: 1.7;
             font-size: 0.95em;
         }
 
-        /* Architecture */
+        /* Métricas */
+        .metric {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 15px 0;
+            border: 3px solid #0047AB;
+            box-shadow: 0 4px 12px rgba(0, 71, 171, 0.1);
+            transition: all 0.3s;
+        }
+
+        .metric:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 71, 171, 0.2);
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            color: #0047AB;
+            font-weight: 800;
+        }
+
+        .metric-label {
+            color: #1e6ec8;
+            margin-top: 10px;
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        /* Arquitectura */
         .architecture {
             background: linear-gradient(135deg, #f0fdf4 0%, #dbeafe 100%);
-            padding: 30px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 2px solid #10b981;
+            padding: 35px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 5px solid #0047AB;
+            box-shadow: 0 4px 12px rgba(0, 71, 171, 0.08);
         }
 
         .component {
             background: white;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 8px;
-            border-left: 4px solid #10b981;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin: 18px 0;
+            border-radius: 10px;
+            border-left: 5px solid #1e6ec8;
+            box-shadow: 0 2px 8px rgba(0, 71, 171, 0.06);
+            transition: all 0.3s;
+        }
+
+        .component:hover {
+            box-shadow: 0 6px 16px rgba(0, 71, 171, 0.12);
+            transform: translateX(5px);
         }
 
         .component-title {
-            color: #047857;
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 8px;
+            color: #0047AB;
+            font-weight: 700;
+            font-size: 1.15em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .component-desc {
             color: #555;
             font-size: 0.95em;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         /* Timeline */
         .timeline {
             position: relative;
-            padding: 20px 0;
+            padding: 30px 0;
         }
 
         .timeline-item {
-            margin-left: 50px;
-            margin-bottom: 30px;
+            margin-left: 60px;
+            margin-bottom: 35px;
             position: relative;
-            background: #f0f4ff;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #3b82f6;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #0047AB;
+            box-shadow: 0 2px 8px rgba(0, 71, 171, 0.06);
+            transition: all 0.3s;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 6px 16px rgba(0, 71, 171, 0.12);
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -39px;
-            top: 25px;
-            width: 20px;
-            height: 20px;
-            background: #3b82f6;
+            left: -48px;
+            top: 30px;
+            width: 26px;
+            height: 26px;
+            background: linear-gradient(135deg, #0047AB 0%, #1e6ec8 100%);
             border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 0 0 3px #3b82f6;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px #0047AB;
         }
 
         .timeline-item h4 {
-            color: #1e3a8a;
-            margin-bottom: 8px;
+            color: #0047AB;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            font-weight: 700;
         }
 
         .timeline-item p {
             color: #555;
             font-size: 0.95em;
+            line-height: 1.6;
         }
 
-        /* Table */
+        /* Tabla */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin: 25px 0;
+            box-shadow: 0 4px 12px rgba(0, 71, 171, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         th {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #0047AB 0%, #1e6ec8 100%);
             color: white;
-            padding: 15px;
+            padding: 18px;
             text-align: left;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1em;
         }
 
         td {
-            padding: 12px 15px;
+            padding: 15px 18px;
             border-bottom: 1px solid #e5e7eb;
+            font-size: 0.95em;
         }
 
         tr:hover {
-            background-color: #f0f4ff;
+            background-color: #f0f9ff;
         }
 
-        /* List */
+        /* Lista */
         ul {
-            margin: 15px 0;
-            padding-left: 25px;
+            margin: 20px 0;
+            padding-left: 30px;
         }
 
         li {
-            margin: 10px 0;
-            line-height: 1.6;
+            margin: 12px 0;
+            line-height: 1.7;
             color: #555;
         }
 
         /* Alert */
         .alert {
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
         }
 
         .alert-success {
-            background-color: #f0fdf4;
             border-left-color: #10b981;
             color: #047857;
         }
 
         .alert-warning {
-            background-color: #fffbeb;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
             border-left-color: #f59e0b;
             color: #b45309;
         }
 
         .alert-info {
-            background-color: #f0f9ff;
-            border-left-color: #3b82f6;
-            color: #1e40af;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left-color: #0047AB;
+            color: #0047AB;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #0047AB 0%, #1e6ec8 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 5px 5px 5px 0;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0, 71, 171, 0.2);
+        }
+
+        .badge-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .badge-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         }
 
         /* Footer */
         footer {
-            background: #1e293b;
+            background: linear-gradient(135deg, #0047AB 0%, #1e6ec8 100%);
             color: white;
             text-align: center;
-            padding: 30px 20px;
-            margin-top: 50px;
+            padding: 40px 20px;
+            margin-top: 60px;
         }
 
         footer p {
-            margin: 5px 0;
+            margin: 8px 0;
+            font-size: 0.95em;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
+            header {
+                padding: 50px 20px;
+            }
+
             header h1 {
-                font-size: 2em;
+                font-size: 2.2em;
+            }
+
+            .header-icon {
+                font-size: 2.5em;
             }
 
             nav a {
@@ -331,59 +516,89 @@
             }
 
             section {
-                padding: 20px;
+                padding: 25px;
             }
 
             .grid {
                 grid-template-columns: 1fr;
             }
 
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
             .metric {
-                padding: 15px;
+                padding: 20px;
             }
 
             .metric-value {
-                font-size: 1.5em;
+                font-size: 1.8em;
+            }
+
+            .timeline-item {
+                margin-left: 40px;
+            }
+
+            .timeline-item::before {
+                left: -38px;
+                width: 20px;
+                height: 20px;
             }
         }
 
-        /* Badge */
-        .badge {
+        /* Botón de enlace */
+        .btn-link {
             display: inline-block;
-            background: #3b82f6;
+            background: linear-gradient(135deg, #0047AB 0%, #1e6ec8 100%);
             color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            margin: 5px 5px 5px 0;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 71, 171, 0.2);
         }
 
-        .badge-success {
-            background: #10b981;
+        .btn-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 71, 171, 0.3);
         }
 
-        .badge-warning {
-            background: #f59e0b;
+        /* Divider */
+        .divider {
+            height: 3px;
+            background: linear-gradient(135deg, #0047AB 0%, #1e6ec8 50%, #3b82f6 100%);
+            margin: 30px 0;
+            border-radius: 2px;
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-        <h1>🤖 Chatbot Willay</h1>
+        <div class="header-icon">🤖</div>
+        <h1>Chatbot Willay</h1>
         <p>Sistema de Asistencia Educativa con LLM Local</p>
+        <div class="header-url">
+            <a href="http://192.168.41.137" target="_blank">
+                <i class="fas fa-link"></i>
+                http://192.168.41.137 <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
     </header>
 
-    <!-- Navigation -->
+    <!-- Navegación -->
     <nav>
         <div class="nav-container">
-            <a href="#inicio" class="nav-link active" onclick="showSection('inicio')">Inicio</a>
-            <a href="#metricas" class="nav-link" onclick="showSection('metricas')">Métricas</a>
-            <a href="#arquitectura" class="nav-link" onclick="showSection('arquitectura')">Arquitectura</a>
-            <a href="#sprints" class="nav-link" onclick="showSection('sprints')">Sprints</a>
-            <a href="#resultados" class="nav-link" onclick="showSection('resultados')">Resultados</a>
-            <a href="#conclusiones" class="nav-link" onclick="showSection('conclusiones')">Conclusiones</a>
-            <a href="#equipo" class="nav-link" onclick="showSection('equipo')">Equipo</a>
+            <a href="#inicio" class="nav-link active" onclick="showSection(event, 'inicio')"><i class="fas fa-home"></i> Inicio</a>
+            <a href="#metricas" class="nav-link" onclick="showSection(event, 'metricas')"><i class="fas fa-chart-bar"></i> Métricas</a>
+            <a href="#arquitectura" class="nav-link" onclick="showSection(event, 'arquitectura')"><i class="fas fa-cube"></i> Arquitectura</a>
+            <a href="#sprints" class="nav-link" onclick="showSection(event, 'sprints')"><i class="fas fa-rocket"></i> Sprints</a>
+            <a href="#resultados" class="nav-link" onclick="showSection(event, 'resultados')"><i class="fas fa-chart-line"></i> Resultados</a>
+            <a href="#conclusiones" class="nav-link" onclick="showSection(event, 'conclusiones')"><i class="fas fa-flag-checkered"></i> Conclusiones</a>
+            <a href="#equipo" class="nav-link" onclick="showSection(event, 'equipo')"><i class="fas fa-users"></i> Equipo</a>
         </div>
     </nav>
 
@@ -392,86 +607,109 @@
 
         <!-- Inicio Section -->
         <section id="inicio" class="active">
-            <h2>📋 Proyecto Chatbot Willay</h2>
+            <h2><i class="fas fa-info-circle"></i> Proyecto Chatbot Willay</h2>
             
-            <div class="alert alert-info">
-                <strong>Objetivo:</strong> Desarrollar un chatbot académico con LLM local (Llama 3.2) ejecutado en infraestructura institucional de la Universidad Andina del Cusco, con acceso web multiplataforma y sistema RAG integrado.
+            <div class="section-header">
+                <div class="section-header-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="section-header-content">
+                    <h3>¿Qué es Willay?</h3>
+                    <p>Un chatbot académico con inteligencia artificial ejecutado localmente en infraestructura institucional, proporcionando asistencia educativa 24/7 con privacidad total.</p>
+                </div>
             </div>
 
-            <h3>Resumen Ejecutivo</h3>
-            <p>Willay es un chatbot académico basado en modelos de lenguaje grande (LLM) que opera localmente mediante Ollama y Llama 3.2. El sistema fue desarrollado en 5 sprints (7 Oct - 6 Nov 2025) combinando CRISP-DM y Scrum, integrando arquitectura cliente-servidor con FastAPI, base de datos SQL segregada, interfaz web HTML/CSS/JavaScript e implementación de RAG para recuperación de contexto académico.</p>
+            <div class="alert alert-info">
+                <strong><i class="fas fa-bullseye"></i> Objetivo Principal:</strong> Desarrollar un chatbot académico con LLM local (Llama 3.2) ejecutado en servidor institucional, con acceso web multiplataforma y sistema RAG integrado para respuestas contextuales fundamentadas en material académico.
+            </div>
 
             <h3>Características Principales</h3>
             <div class="grid">
                 <div class="card">
-                    <h4>✅ Despliegue Local</h4>
+                    <h4><i class="fas fa-server"></i> Despliegue Local</h4>
                     <p>Ejecutado en servidor institucional sin dependencias externas o servicios cloud.</p>
                 </div>
                 <div class="card">
-                    <h4>🔐 Privacidad Total</h4>
+                    <h4><i class="fas fa-lock"></i> Privacidad Total</h4>
                     <p>Todas las consultas se anonimizan y almacenan sin transmisión a internet.</p>
                 </div>
                 <div class="card">
-                    <h4>🌐 Acceso Web</h4>
+                    <h4><i class="fas fa-globe"></i> Acceso Web</h4>
                     <p>Interfaz accesible desde cualquier dispositivo conectado a la red institucional.</p>
                 </div>
                 <div class="card">
-                    <h4>🧠 RAG Integrado</h4>
+                    <h4><i class="fas fa-brain"></i> RAG Integrado</h4>
                     <p>Sistema de búsqueda y recuperación de 25+ entradas académicas para respuestas contextuales.</p>
                 </div>
                 <div class="card">
-                    <h4>📊 Monitoreo Docente</h4>
+                    <h4><i class="fas fa-chart-pie"></i> Monitoreo Docente</h4>
                     <p>Panel de análisis de interacciones y patrones de dificultad de estudiantes.</p>
                 </div>
                 <div class="card">
-                    <h4>⚡ Rendimiento Óptimo</h4>
+                    <h4><i class="fas fa-bolt"></i> Rendimiento Óptimo</h4>
                     <p>136.45 tokens/segundo con latencia de 3.99 segundos promedio.</p>
                 </div>
             </div>
 
+            <div class="divider"></div>
+
             <h3>Tecnologías Utilizadas</h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
-                <span class="badge">Python 3.10+</span>
-                <span class="badge">FastAPI</span>
-                <span class="badge">Ollama v0.3.12</span>
-                <span class="badge">Llama 3.2</span>
-                <span class="badge">SQL (SQLite)</span>
-                <span class="badge">Apache 2.4</span>
-                <span class="badge">JavaScript</span>
-                <span class="badge">HTML/CSS</span>
-                <span class="badge">Ubuntu Server</span>
-                <span class="badge">RAG</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0;">
+                <span class="badge"><i class="fab fa-python"></i> Python 3.10+</span>
+                <span class="badge"><i class="fas fa-cube"></i> FastAPI</span>
+                <span class="badge"><i class="fas fa-gears"></i> Ollama v0.3.12</span>
+                <span class="badge"><i class="fas fa-brain"></i> Llama 3.2</span>
+                <span class="badge"><i class="fas fa-database"></i> SQL (SQLite)</span>
+                <span class="badge"><i class="fas fa-server"></i> Apache 2.4</span>
+                <span class="badge"><i class="fab fa-js"></i> JavaScript</span>
+                <span class="badge"><i class="fab fa-html5"></i> HTML/CSS</span>
+                <span class="badge"><i class="fab fa-ubuntu"></i> Ubuntu Server</span>
+                <span class="badge"><i class="fas fa-search"></i> RAG</span>
             </div>
+
+            <a href="#metricas" class="btn-link" onclick="showSection(event, 'metricas')">
+                <i class="fas fa-arrow-right"></i> Ver Métricas
+            </a>
         </section>
 
         <!-- Métricas Section -->
         <section id="metricas">
-            <h2>📊 Métricas de Rendimiento</h2>
+            <h2><i class="fas fa-chart-bar"></i> Métricas de Rendimiento</h2>
+
+            <div class="section-header">
+                <div class="section-header-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <div class="section-header-content">
+                    <h3>Desempeño del Sistema</h3>
+                    <p>Métricas reales extraídas de los logs de producción del sistema durante pruebas con usuarios.</p>
+                </div>
+            </div>
 
             <h3>Rendimiento del Modelo Llama 3.2</h3>
             <div class="grid">
                 <div class="metric">
-                    <div class="metric-value">658</div>
-                    <div class="metric-label">Tokens Prompt Promedio</div>
+                    <div class="metric-value"><i class="fas fa-crown"></i> 658</div>
+                    <div class="metric-label">Tokens Prompt</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">545</div>
-                    <div class="metric-label">Tokens Completion Promedio</div>
+                    <div class="metric-value"><i class="fas fa-crown"></i> 545</div>
+                    <div class="metric-label">Tokens Completion</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">1203</div>
-                    <div class="metric-label">Total Tokens Procesados</div>
+                    <div class="metric-value"><i class="fas fa-crown"></i> 1203</div>
+                    <div class="metric-label">Total Tokens</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">3.99s</div>
-                    <div class="metric-label">Tiempo de Respuesta</div>
+                    <div class="metric-value"><i class="fas fa-hourglass"></i> 3.99s</div>
+                    <div class="metric-label">Tiempo Respuesta</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">136.45</div>
+                    <div class="metric-value"><i class="fas fa-fire"></i> 136.45</div>
                     <div class="metric-label">Tokens/Segundo</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">1.88 GB</div>
+                    <div class="metric-value"><i class="fas fa-database"></i> 1.88 GB</div>
                     <div class="metric-label">Tamaño Modelo</div>
                 </div>
             </div>
@@ -479,73 +717,34 @@
             <h3>Configuración del Modelo</h3>
             <table>
                 <tr>
-                    <th>Parámetro</th>
+                    <th><i class="fas fa-cog"></i> Parámetro</th>
                     <th>Valor</th>
                     <th>Descripción</th>
                 </tr>
                 <tr>
-                    <td>Modelo</td>
+                    <td><strong>Modelo</strong></td>
                     <td>Llama 3.2 (1B)</td>
                     <td>1 billón de parámetros, versión cuantizada</td>
                 </tr>
                 <tr>
-                    <td>Temperatura</td>
-                    <td>0.3</td>
+                    <td><strong>Temperatura</strong></td>
+                    <td><span class="badge">0.3</span></td>
                     <td>Baja aleatoriedad para respuestas consistentes</td>
                 </tr>
                 <tr>
-                    <td>Max Sesiones</td>
-                    <td>20</td>
+                    <td><strong>Max Sesiones</strong></td>
+                    <td><span class="badge">20</span></td>
                     <td>Sesiones concurrentes simultáneas</td>
                 </tr>
                 <tr>
-                    <td>Max Mensajes/Sesión</td>
-                    <td>20</td>
+                    <td><strong>Max Mensajes/Sesión</strong></td>
+                    <td><span class="badge">20</span></td>
                     <td>Gestión eficiente de contexto</td>
                 </tr>
                 <tr>
-                    <td>System Prompt</td>
+                    <td><strong>System Prompt</strong></td>
                     <td>"Responde en frases cortas"</td>
                     <td>Optimización de tokens y respuestas directas</td>
-                </tr>
-            </table>
-
-            <h3>Métricas de Clasificación de Consultas</h3>
-            <table>
-                <tr>
-                    <th>Tipo de Consulta</th>
-                    <th>Confianza Promedio</th>
-                    <th>Ejemplo</th>
-                </tr>
-                <tr>
-                    <td>DEFINICION</td>
-                    <td><span class="badge">0.20</span></td>
-                    <td>"¿Qué es una lista en Python?"</td>
-                </tr>
-                <tr>
-                    <td>EJEMPLO</td>
-                    <td><span class="badge">0.20</span></td>
-                    <td>"Dame un ejemplo de diccionarios"</td>
-                </tr>
-                <tr>
-                    <td>COMPARACION</td>
-                    <td><span class="badge">0.20</span></td>
-                    <td>"¿Cuál es la diferencia entre lista y tupla?"</td>
-                </tr>
-                <tr>
-                    <td>APLICACION</td>
-                    <td><span class="badge-warning">0.40</span></td>
-                    <td>"¿Para qué sirven los algoritmos?"</td>
-                </tr>
-                <tr>
-                    <td>TEORIA</td>
-                    <td><span class="badge">0.20</span></td>
-                    <td>"Explícame la teoría detrás de POO"</td>
-                </tr>
-                <tr>
-                    <td>GENERAL</td>
-                    <td><span class="badge-success">0.50</span></td>
-                    <td>Consultas abiertas o ambiguas</td>
                 </tr>
             </table>
 
@@ -572,61 +771,71 @@
 
         <!-- Arquitectura Section -->
         <section id="arquitectura">
-            <h2>🏗️ Arquitectura del Sistema</h2>
+            <h2><i class="fas fa-cube"></i> Arquitectura del Sistema</h2>
 
-            <h3>Modelo Cliente-Servidor</h3>
+            <div class="section-header">
+                <div class="section-header-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <div class="section-header-content">
+                    <h3>Modelo Cliente-Servidor</h3>
+                    <p>Arquitectura profesional desplegada en infraestructura institucional de la Universidad Andina del Cusco.</p>
+                </div>
+            </div>
+
+            <h3>Componentes del Sistema</h3>
             <div class="architecture">
-                <p style="text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 1.1em;">Arquitectura Desplegada en Infraestructura Institucional</p>
+                <p style="text-align: center; font-weight: bold; margin-bottom: 25px; font-size: 1.15em; color: #0047AB;">Flujo de Arquitectura Cliente-Servidor</p>
                 <div class="component">
-                    <div class="component-title">🖥️ Clientes (Navegadores Web)</div>
-                    <div class="component-desc">Dispositivos de estudiantes y docentes conectados a la red institucional. Acceso mediante URL local: http://192.168.x.x:8000</div>
+                    <div class="component-title"><i class="fas fa-desktop"></i> Clientes (Navegadores Web)</div>
+                    <div class="component-desc">Dispositivos de estudiantes y docentes conectados a la red institucional. Acceso mediante URL local: <strong>http://192.168.41.137</strong></div>
                 </div>
                 <div class="component">
-                    <div class="component-title">🌐 Servidor Web - Apache 2.4</div>
+                    <div class="component-title"><i class="fas fa-globe"></i> Servidor Web - Apache 2.4</div>
                     <div class="component-desc">Sirve archivos estáticos (HTML, CSS, JavaScript). Puerto 80/8000. Sistema operativo: Ubuntu Server 22.04 LTS</div>
                 </div>
                 <div class="component">
-                    <div class="component-title">⚙️ Backend API - FastAPI (Python 3.10+)</div>
+                    <div class="component-title"><i class="fas fa-cogs"></i> Backend API - FastAPI (Python 3.10+)</div>
                     <div class="component-desc">Gestión de lógica de negocio, endpoints REST, orquestación de componentes. Puerto 8000. Endpoints: /chat, /history, /metrics</div>
                 </div>
                 <div class="component">
-                    <div class="component-title">🧠 Motor de IA - Ollama v0.3.12</div>
+                    <div class="component-title"><i class="fas fa-brain"></i> Motor de IA - Ollama v0.3.12</div>
                     <div class="component-desc">Gestor de modelos LLM locales. Ejecuta inferencias con Llama 3.2 (1B). Puerto 11434. Aceleración GPU (NVIDIA RTX 3060)</div>
                 </div>
                 <div class="component">
-                    <div class="component-title">🗄️ Base de Datos - SQL (SQLite)</div>
+                    <div class="component-title"><i class="fas fa-database"></i> Base de Datos - SQL (SQLite)</div>
                     <div class="component-desc">Persistencia de datos con 6 tablas segregadas: configuracion, contenidoteorico, conversaciones, mensajes, metricas, usuarios</div>
                 </div>
                 <div class="component">
-                    <div class="component-title">🔍 Sistema RAG</div>
+                    <div class="component-title"><i class="fas fa-search"></i> Sistema RAG</div>
                     <div class="component-desc">Búsqueda y recuperación de contenido académico de tabla contenidoteorico. 25+ entradas cubriendo Python, ML, SQL, POO, Algoritmos</div>
                 </div>
             </div>
 
-            <h3>Hardware Servidor</h3>
+            <h3>Hardware del Servidor</h3>
             <div class="grid">
                 <div class="card">
-                    <h4>Procesador</h4>
+                    <h4><i class="fas fa-microchip"></i> Procesador</h4>
                     <p>Intel Core i7-10750H (6 núcleos)</p>
                 </div>
                 <div class="card">
-                    <h4>Memoria RAM</h4>
+                    <h4><i class="fas fa-memory"></i> Memoria RAM</h4>
                     <p>32 GB DDR4</p>
                 </div>
                 <div class="card">
-                    <h4>GPU</h4>
+                    <h4><i class="fas fa-square"></i> GPU</h4>
                     <p>NVIDIA RTX 3060 (6 GB VRAM)</p>
                 </div>
                 <div class="card">
-                    <h4>Almacenamiento</h4>
+                    <h4><i class="fas fa-hdd"></i> Almacenamiento</h4>
                     <p>SSD 250 GB</p>
                 </div>
                 <div class="card">
-                    <h4>Sistema Operativo</h4>
+                    <h4><i class="fas fa-linux"></i> Sistema Operativo</h4>
                     <p>Ubuntu Server 22.04 LTS</p>
                 </div>
                 <div class="card">
-                    <h4>Red</h4>
+                    <h4><i class="fas fa-network-wired"></i> Red</h4>
                     <p>Ethernet/WiFi Institucional</p>
                 </div>
             </div>
@@ -634,348 +843,317 @@
             <h3>Flujo RAG Implementado</h3>
             <div class="timeline">
                 <div class="timeline-item">
-                    <h4>1️⃣ Usuario realiza consulta</h4>
+                    <h4><i class="fas fa-comments"></i> Usuario realiza consulta</h4>
                     <p>Estudiante ingresa pregunta académica en interfaz web</p>
                 </div>
                 <div class="timeline-item">
-                    <h4>2️⃣ Sistema clasifica tipo de pregunta</h4>
+                    <h4><i class="fas fa-tag"></i> Sistema clasifica tipo de pregunta</h4>
                     <p>Clasificador automático: DEFINICION, EJEMPLO, COMPARACION, APLICACION, TEORIA, GENERAL</p>
                 </div>
                 <div class="timeline-item">
-                    <h4>3️⃣ Backend busca en tabla contenidoteorico</h4>
+                    <h4><i class="fas fa-search"></i> Backend busca en tabla contenidoteorico</h4>
                     <p>Extrae keywords de la consulta y busca en base de conocimientos</p>
                 </div>
                 <div class="timeline-item">
-                    <h4>4️⃣ Recupera 2-4 documentos relevantes</h4>
+                    <h4><i class="fas fa-list"></i> Recupera 2-4 documentos relevantes</h4>
                     <p>Selecciona entradas académicas según coincidencia de keywords y tema</p>
                 </div>
                 <div class="timeline-item">
-                    <h4>5️⃣ Inyecta contenido en prompt</h4>
+                    <h4><i class="fas fa-file-alt"></i> Inyecta contenido en prompt</h4>
                     <p>Contexto recuperado se agrega al prompt para Llama 3.2</p>
                 </div>
                 <div class="timeline-item">
-                    <h4>6️⃣ Modelo genera respuesta</h4>
+                    <h4><i class="fas fa-lightbulb"></i> Modelo genera respuesta</h4>
                     <p>Llama 3.2 genera respuesta fundamentada en material académico institucional</p>
                 </div>
                 <div class="timeline-item">
-                    <h4>7️⃣ Sistema almacena en BD</h4>
+                    <h4><i class="fas fa-save"></i> Sistema almacena en BD</h4>
                     <p>Guarda conversación, métricas y logs anonimizados</p>
                 </div>
                 <div class="timeline-item">
-                    <h4>8️⃣ Respuesta se renderiza en interfaz</h4>
+                    <h4><i class="fas fa-check-circle"></i> Respuesta se renderiza en interfaz</h4>
                     <p>Usuario recibe respuesta con tiempo total de ~4 segundos</p>
                 </div>
             </div>
-
-            <h3>Base de Datos Segregada</h3>
-            <table>
-                <tr>
-                    <th>Tabla</th>
-                    <th>Propósito</th>
-                    <th>Contenido</th>
-                </tr>
-                <tr>
-                    <td>configuracion</td>
-                    <td>Parámetros del modelo</td>
-                    <td>Temperatura (0.3), modelo (llama3.2), sistema prompt</td>
-                </tr>
-                <tr>
-                    <td>contenidoteorico</td>
-                    <td>Knowledge base para RAG</td>
-                    <td>25+ entradas: Python, ML, SQL, POO, Algoritmos</td>
-                </tr>
-                <tr>
-                    <td>conversaciones</td>
-                    <td>Sesiones de usuario</td>
-                    <td>sesion_id, usuario_id, fecha_inicio, estado</td>
-                </tr>
-                <tr>
-                    <td>mensajes</td>
-                    <td>Historial de interacciones</td>
-                    <td>conversacion_id, rol, mensaje, timestamp, tokens</td>
-                </tr>
-                <tr>
-                    <td>metricas</td>
-                    <td>Registro de desempeño</td>
-                    <td>tipo_consulta, tiempo_respuesta, tokens_procesados</td>
-                </tr>
-                <tr>
-                    <td>usuarios</td>
-                    <td>Perfiles de usuarios</td>
-                    <td>usuario_id, rol (docente/estudiante), correo</td>
-                </tr>
-            </table>
         </section>
 
         <!-- Sprints Section -->
         <section id="sprints">
-            <h2>🚀 Sprints de Desarrollo (5 semanas)</h2>
+            <h2><i class="fas fa-rocket"></i> Sprints de Desarrollo</h2>
+
+            <div class="section-header">
+                <div class="section-header-icon">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <div class="section-header-content">
+                    <h3>5 Semanas de Desarrollo</h3>
+                    <p>Metodología Scrum + CRISP-DM (7 Oct - 6 Nov 2025)</p>
+                </div>
+            </div>
 
             <div class="timeline">
                 <div class="timeline-item">
-                    <h4>Sprint 1 (7-13 Oct) - Planificación e Infraestructura</h4>
+                    <h4><i class="fas fa-layer-group"></i> Sprint 1 (7-13 Oct) - Planificación e Infraestructura</h4>
                     <p><strong>Actividades:</strong> Acta de proyecto, definición metodológica, configuración de entorno, validación de hardware.</p>
-                    <p><strong>Logros:</strong> Verificación con Intel Core i7-10750H, 32 GB RAM, NVIDIA RTX 3060. Tiempo de inicio: 1 min 45s.</p>
+                    <p><strong>✅ Logros:</strong> Verificación con Intel Core i7-10750H, 32 GB RAM, NVIDIA RTX 3060. Tiempo de inicio: 1 min 45s.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <h4>Sprint 2 (14-20 Oct) - Backend y Base de Datos</h4>
+                    <h4><i class="fas fa-database"></i> Sprint 2 (14-20 Oct) - Backend y Base de Datos</h4>
                     <p><strong>Actividades:</strong> Segregación de base de datos (6 tablas), instalación Ollama v0.3.12 y Llama 3.2, implementación clasificador de consultas.</p>
-                    <p><strong>Logros:</strong> 6 categorías de clasificación (DEFINICION, EJEMPLO, COMPARACION, APLICACION, TEORIA, GENERAL) con confianza promedio 0.30.</p>
+                    <p><strong>✅ Logros:</strong> 6 categorías de clasificación con confianza promedio 0.30.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <h4>Sprint 3 (21-27 Oct) - Frontend y Demostración</h4>
-                    <p><strong>Actividades:</strong> Desarrollo interfaz web HTML/CSS/JavaScript, carga de FAQs (25+ entradas), primera demostración funcional (Demo 1).</p>
-                    <p><strong>Logros:</strong> Corrección de errores cliente-servidor, optimización del historial conversacional, acceso web verificado.</p>
+                    <h4><i class="fas fa-paint-brush"></i> Sprint 3 (21-27 Oct) - Frontend y Demostración</h4>
+                    <p><strong>Actividades:</strong> Desarrollo interfaz web HTML/CSS/JavaScript, carga de FAQs (25+ entradas), Demo 1.</p>
+                    <p><strong>✅ Logros:</strong> Corrección cliente-servidor, optimización historial, acceso web verificado.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <h4>Sprint 4 (28 Oct-3 Nov) - Pruebas y Monitoreo</h4>
-                    <p><strong>Actividades:</strong> Pruebas con usuarios reales, acceso desde múltiples dispositivos, mejoras iterativas basadas en feedback.</p>
-                    <p><strong>Logros:</strong> Panel de monitoreo docente implementado, análisis de interacciones por tema, satisfacción de usuarios 65%.</p>
+                    <h4><i class="fas fa-flask"></i> Sprint 4 (28 Oct-3 Nov) - Pruebas y Monitoreo</h4>
+                    <p><strong>Actividades:</strong> Pruebas con usuarios reales, múltiples dispositivos, mejoras iterativas.</p>
+                    <p><strong>✅ Logros:</strong> Panel monitoreo docente, análisis interacciones, satisfacción 65%.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <h4>Sprint 5 (4-6 Nov) - Afinamiento Final</h4>
-                    <p><strong>Actividades:</strong> Afinamiento final, control de logs anonimizados, lanzamiento de Demo 2, validación de historias de usuario.</p>
-                    <p><strong>Logros:</strong> Todas las historias de usuario completadas, sistema listo para despliegue, documentación finalizada.</p>
+                    <h4><i class="fas fa-check"></i> Sprint 5 (4-6 Nov) - Afinamiento Final</h4>
+                    <p><strong>Actividades:</strong> Afinamiento final, control logs anonimizados, Demo 2, validación historias.</p>
+                    <p><strong>✅ Logros:</strong> Todas las historias completadas, sistema listo para despliegue.</p>
                 </div>
             </div>
 
             <div class="alert alert-success">
-                <strong>Resultado:</strong> 5 sprints completados exitosamente en 5 semanas (7 Oct - 6 Nov 2025). Sistema completamente funcional con métricas verificadas.
+                <strong><i class="fas fa-trophy"></i> Resultado Final:</strong> 5 sprints completados exitosamente en 5 semanas. Sistema completamente funcional con todas las métricas verificadas.
             </div>
         </section>
 
         <!-- Resultados Section -->
         <section id="resultados">
-            <h2>📈 Resultados y Uso</h2>
+            <h2><i class="fas fa-chart-line"></i> Resultados y Uso</h2>
 
-            <h3>Estadísticas de Pruebas</h3>
+            <div class="section-header">
+                <div class="section-header-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="section-header-content">
+                    <h3>Estadísticas de Pruebas</h3>
+                    <p>Datos reales obtenidos durante las pruebas con usuarios finales.</p>
+                </div>
+            </div>
+
+            <h3>Métricas de Uso</h3>
             <div class="grid">
                 <div class="metric">
-                    <div class="metric-value">9</div>
-                    <div class="metric-label">Sesiones de Prueba Activas</div>
+                    <div class="metric-value"><i class="fas fa-users"></i> 9</div>
+                    <div class="metric-label">Sesiones Activas</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">25+</div>
-                    <div class="metric-label">Interacciones Registradas</div>
+                    <div class="metric-value"><i class="fas fa-comments"></i> 25+</div>
+                    <div class="metric-label">Interacciones</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">25</div>
-                    <div class="metric-label">Entradas Base Conocimiento</div>
+                    <div class="metric-value"><i class="fas fa-book"></i> 25</div>
+                    <div class="metric-label">Entradas Base</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">65%</div>
-                    <div class="metric-label">Satisfacción Usuarios</div>
+                    <div class="metric-value"><i class="fas fa-smile"></i> 65%</div>
+                    <div class="metric-label">Satisfacción</div>
                 </div>
             </div>
 
             <h3>Temas Académicos Cubiertos</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+            <div class="grid">
                 <div class="card">
-                    <h4>🐍 Python</h4>
+                    <h4><i class="fab fa-python"></i> Python</h4>
                     <p>Listas, Diccionarios, Funciones, POO, Módulos</p>
                 </div>
                 <div class="card">
-                    <h4>🤖 Machine Learning</h4>
+                    <h4><i class="fas fa-robot"></i> Machine Learning</h4>
                     <p>Algoritmos, Clasificación, Regresión, Redes Neuronales</p>
                 </div>
                 <div class="card">
-                    <h4>🗄️ SQL</h4>
+                    <h4><i class="fas fa-table"></i> SQL</h4>
                     <p>Consultas, Joins, Índices, Normalización</p>
                 </div>
                 <div class="card">
-                    <h4>📦 POO</h4>
+                    <h4><i class="fas fa-box"></i> POO</h4>
                     <p>Clases, Herencia, Polimorfismo, Encapsulación</p>
                 </div>
                 <div class="card">
-                    <h4>⚙️ Algoritmos</h4>
+                    <h4><i class="fas fa-code"></i> Algoritmos</h4>
                     <p>Búsqueda, Ordenamiento, Grafos, Complejidad</p>
                 </div>
                 <div class="card">
-                    <h4>🔗 IA</h4>
+                    <h4><i class="fas fa-brain"></i> IA</h4>
                     <p>LLM, Prompting, RAG, Embeddings</p>
                 </div>
             </div>
 
-            <h3>Consultas Más Frecuentes</h3>
-            <ul>
-                <li>Listas en Python: operaciones y métodos</li>
-                <li>¿Cómo funcionan los diccionarios en Python?</li>
-                <li>Diferencia entre tuplas y listas</li>
-                <li>Conceptos de Machine Learning</li>
-                <li>Cómo hacer consultas SQL efectivas</li>
-                <li>Principios de Programación Orientada a Objetos</li>
-                <li>Explicación de algoritmos de ordenamiento</li>
-                <li>Introducción a Redes Neuronales</li>
-            </ul>
-
-            <h3>Análisis de Calidad</h3>
             <div class="alert alert-info">
-                <strong>Puntuación promedio de respuestas: 0.54</strong><br>
-                Las respuestas fueron completas (completitud 1.00) y relevantes (relevancia 0.62). La precisión de 0.23 indica que ocasionalmente el modelo genera información adicional no presente en la base de conocimientos, lo que es esperado con modelos de 1B parámetros.
+                <strong><i class="fas fa-info-circle"></i> Privacidad y Seguridad:</strong> Todas las consultas se anonimizan localmente sin transmisión externa, logs únicamente con metadatos estadísticos, operación 100% on-premise con control institucional completo.
             </div>
-
-            <h3>Privacidad y Seguridad</h3>
-            <ul>
-                <li>✅ Todas las consultas se anonimizan localmente</li>
-                <li>✅ Sin transmisión externa a internet</li>
-                <li>✅ Logs únicamente con metadatos estadísticos</li>
-                <li>✅ Sin contenido sensible almacenado</li>
-                <li>✅ Operación 100% on-premise</li>
-                <li>✅ Control institucional completo</li>
-            </ul>
         </section>
 
         <!-- Conclusiones Section -->
         <section id="conclusiones">
-            <h2>🎯 Conclusiones y Trabajo Futuro</h2>
+            <h2><i class="fas fa-flag-checkered"></i> Conclusiones y Trabajo Futuro</h2>
 
-            <h3>Logros Alcanzados</h3>
+            <div class="section-header">
+                <div class="section-header-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="section-header-content">
+                    <h3>Síntesis del Proyecto</h3>
+                    <p>Análisis de logros, aprendizajes, limitaciones y hoja de ruta futura.</p>
+                </div>
+            </div>
+
+            <h3>✅ Logros Alcanzados</h3>
             <div class="alert alert-success">
                 <ul>
-                    <li>✅ Implementación exitosa de chatbot académico end-to-end con arquitectura cliente-servidor</li>
-                    <li>✅ Cinco sprints completados en 5 semanas (7 Oct - 6 Nov 2025)</li>
-                    <li>✅ Velocidad de procesamiento: 136.45 tokens/segundo</li>
-                    <li>✅ Latencia promedio: 3.99 segundos (viable para entorno educativo)</li>
-                    <li>✅ Sistema RAG integrado con 25+ entradas académicas</li>
-                    <li>✅ Acceso web multiplataforma eliminando barreras técnicas</li>
-                    <li>✅ Metodología híbrida CRISP-DM/Scrum funcionó efectivamente</li>
+                    <li><i class="fas fa-check"></i> Implementación exitosa de chatbot académico end-to-end</li>
+                    <li><i class="fas fa-check"></i> Cinco sprints completados en 5 semanas</li>
+                    <li><i class="fas fa-check"></i> Velocidad: 136.45 tokens/segundo</li>
+                    <li><i class="fas fa-check"></i> Latencia: 3.99 segundos (viable)</li>
+                    <li><i class="fas fa-check"></i> Sistema RAG con 25+ entradas académicas</li>
+                    <li><i class="fas fa-check"></i> Acceso web multiplataforma</li>
+                    <li><i class="fas fa-check"></i> Metodología híbrida efectiva (CRISP-DM + Scrum)</li>
                 </ul>
             </div>
 
-            <h3>Aprendizajes Clave</h3>
-            <ul>
-                <li><strong>Scrum + CRISP-DM:</strong> La combinación de metodologías ágiles con procesos estructurados gestiona efectivamente la complejidad</li>
-                <li><strong>Segregación de BD:</strong> Las 6 tablas especializadas facilitan mantenimiento y escalabilidad</li>
-                <li><strong>RAG por keywords:</strong> Efectivo para prototipos iniciales, pero requiere optimización con embeddings vectoriales</li>
-                <li><strong>Despliegue Local:</strong> Control total de privacidad cumpliendo requisitos éticos institucionales</li>
-                <li><strong>Iteración Rápida:</strong> Pruebas con usuarios reales en sprints 4-5 generaron mejoras significativas</li>
-            </ul>
+            <h3>📚 Aprendizajes Clave</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4><i class="fas fa-cogs"></i> Metodología Ágil</h4>
+                    <p>Scrum + CRISP-DM gestiona efectivamente la complejidad de proyectos IA.</p>
+                </div>
+                <div class="card">
+                    <h4><i class="fas fa-database"></i> Arquitectura BD</h4>
+                    <p>Segregación de 6 tablas facilita mantenimiento y escalabilidad.</p>
+                </div>
+                <div class="card">
+                    <h4><i class="fas fa-search"></i> RAG por Keywords</h4>
+                    <p>Efectivo para prototipos, pero requiere embeddings vectoriales.</p>
+                </div>
+                <div class="card">
+                    <h4><i class="fas fa-shield"></i> Despliegue Local</h4>
+                    <p>Control total de privacidad cumpliendo requisitos éticos.</p>
+                </div>
+            </div>
 
-            <h3>Limitaciones Actuales</h3>
+            <h3>⚠️ Limitaciones Actuales</h3>
             <div class="alert alert-warning">
                 <ul>
-                    <li>⚠️ Modelo Llama 3.2 (1B) ocasionalmente se desvía del contenido base (precisión 0.23)</li>
-                    <li>⚠️ Clasificación de consultas requiere ajustes (confianzas entre 0.20-0.50)</li>
-                    <li>⚠️ RAG actual usa búsqueda por keywords (no semántica)</li>
-                    <li>⚠️ Acceso limitado a red local institucional</li>
-                    <li>⚠️ Tiempo de respuesta ~4s puede resultar largo para consultas simples</li>
+                    <li><i class="fas fa-exclamation-triangle"></i> Modelo Llama 3.2 (1B) ocasionalmente se desvía del contenido base (precisión 0.23)</li>
+                    <li><i class="fas fa-exclamation-triangle"></i> Clasificación requiere ajustes (confianzas 0.20-0.50)</li>
+                    <li><i class="fas fa-exclamation-triangle"></i> RAG actual usa búsqueda por keywords (no semántica)</li>
+                    <li><i class="fas fa-exclamation-triangle"></i> Acceso limitado a red local institucional</li>
+                    <li><i class="fas fa-exclamation-triangle"></i> Tiempo de respuesta ~4s para consultas simples</li>
                 </ul>
             </div>
 
-            <h3>Trabajo Futuro (Hoja de Ruta)</h3>
+            <h3>🚀 Trabajo Futuro (Hoja de Ruta)</h3>
             <table>
                 <tr>
-                    <th>Mejora</th>
+                    <th><i class="fas fa-list"></i> Mejora</th>
                     <th>Descripción</th>
                     <th>Prioridad</th>
                 </tr>
                 <tr>
-                    <td>Optimizar RAG con Embeddings</td>
-                    <td>Implementar sentence-transformers y búsqueda semántica para mejor recuperación</td>
-                    <td><span class="badge-success">Alta</span></td>
+                    <td><strong>Optimizar RAG con Embeddings</strong></td>
+                    <td>Implementar sentence-transformers y búsqueda semántica</td>
+                    <td><span class="badge-success">🔴 Alta</span></td>
                 </tr>
                 <tr>
-                    <td>Migrar a BD Vectorial</td>
-                    <td>ChromaDB, Pinecone o Weaviate para búsqueda semántica más eficiente</td>
-                    <td><span class="badge-success">Alta</span></td>
+                    <td><strong>Migrar a BD Vectorial</strong></td>
+                    <td>ChromaDB, Pinecone o Weaviate</td>
+                    <td><span class="badge-success">🔴 Alta</span></td>
                 </tr>
                 <tr>
-                    <td>Mejorar Clasificador</td>
-                    <td>Fine-tuning o modelos especializados para aumentar confianza en categorías complejas</td>
-                    <td><span class="badge-success">Alta</span></td>
+                    <td><strong>Mejorar Clasificador</strong></td>
+                    <td>Fine-tuning para aumentar confianza</td>
+                    <td><span class="badge-success">🔴 Alta</span></td>
                 </tr>
                 <tr>
-                    <td>Panel Docente Avanzado</td>
-                    <td>Análisis estadístico de interacciones, visualización de patrones de dificultad</td>
-                    <td><span class="badge">Media</span></td>
+                    <td><strong>Panel Docente Avanzado</strong></td>
+                    <td>Análisis estadístico y visualizaciones</td>
+                    <td><span class="badge">🟡 Media</span></td>
                 </tr>
                 <tr>
-                    <td>Soporte Multimodal</td>
-                    <td>Ingestión directa de documentos PDF en base de conocimientos</td>
-                    <td><span class="badge">Media</span></td>
+                    <td><strong>Soporte Multimodal</strong></td>
+                    <td>Ingestión de documentos PDF</td>
+                    <td><span class="badge">🟡 Media</span></td>
                 </tr>
                 <tr>
-                    <td>Escalamiento de Modelo</td>
-                    <td>Migrar a Llama 3.2 3B-7B parámetros según disponibilidad de recursos</td>
-                    <td><span class="badge">Media</span></td>
-                </tr>
-                <tr>
-                    <td>Acceso Remoto Seguro</td>
-                    <td>Exposición mediante VPN institucional para usuarios fuera del campus</td>
-                    <td><span class="badge">Media</span></td>
-                </tr>
-                <tr>
-                    <td>Cache de Respuestas</td>
-                    <td>Pre-computación de embeddings y respuestas frecuentes para reducir latencia a <2s</td>
-                    <td><span class="badge">Baja</span></td>
+                    <td><strong>Escalamiento de Modelo</strong></td>
+                    <td>Migrar a Llama 3.2 3B-7B parámetros</td>
+                    <td><span class="badge">🟡 Media</span></td>
                 </tr>
             </table>
-
-            <h3>Recomendaciones</h3>
-            <ul>
-                <li>💡 Priorizar optimización de RAG con embeddings vectoriales en próximo ciclo de desarrollo</li>
-                <li>💡 Implementar feedback loop automatizado para mejorar calidad del clasificador de consultas</li>
-                <li>💡 Expandir base de conocimientos con más temas y niveles de dificultad</li>
-                <li>💡 Realizar estudios de usabilidad periódicos con estudiantes para mejora continua</li>
-                <li>💡 Documentar buenas prácticas de deploy local en universidades para replicabilidad</li>
-            </ul>
         </section>
 
         <!-- Equipo Section -->
         <section id="equipo">
-            <h2>👥 Equipo de Desarrollo</h2>
+            <h2><i class="fas fa-users"></i> Equipo de Desarrollo</h2>
 
-            <h3>Equipo Blinders - Universidad Andina del Cusco</h3>
+            <div class="section-header">
+                <div class="section-header-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="section-header-content">
+                    <h3>Equipo Blinders</h3>
+                    <p>Universidad Andina del Cusco - Facultad de Ingeniería</p>
+                </div>
+            </div>
+
+            <h3>Miembros del Equipo</h3>
             <div class="grid">
                 <div class="card">
-                    <h4>Jairo Nahuel Paredes Puma</h4>
-                    <p><strong>Rol:</strong> Product Owner</p>
+                    <h4><i class="fas fa-user-tie"></i> Jairo Nahuel Paredes Puma</h4>
+                    <p><strong>Rol:</strong> <span class="badge">Product Owner</span></p>
                     <p><strong>Email:</strong> 021100715h@uandina.edu.pe</p>
                     <p><strong>Responsabilidades:</strong> Visión del producto, requisitos, stakeholder management</p>
                 </div>
                 <div class="card">
-                    <h4>Abel Edson Rojas Cornejo</h4>
-                    <p><strong>Rol:</strong> Developer</p>
+                    <h4><i class="fas fa-user-secret"></i> Abel Edson Rojas Cornejo</h4>
+                    <p><strong>Rol:</strong> <span class="badge">Developer</span></p>
                     <p><strong>Email:</strong> 021100813j@uandina.edu.pe</p>
                     <p><strong>Responsabilidades:</strong> Backend, APIs, integraciones</p>
                 </div>
                 <div class="card">
-                    <h4>Luis Marin Salas Challco</h4>
-                    <p><strong>Rol:</strong> Scrum Master</p>
+                    <h4><i class="fas fa-user-cog"></i> Luis Marin Salas Challco</h4>
+                    <p><strong>Rol:</strong> <span class="badge badge-success">Scrum Master</span></p>
                     <p><strong>Email:</strong> 021100828g@uandina.edu.pe</p>
                     <p><strong>Responsabilidades:</strong> Proceso ágil, facilitación, impedimentos</p>
                 </div>
                 <div class="card">
-                    <h4>Mark Joel Segovia Palacios</h4>
-                    <p><strong>Rol:</strong> Developer</p>
+                    <h4><i class="fas fa-user-graduate"></i> Mark Joel Segovia Palacios</h4>
+                    <p><strong>Rol:</strong> <span class="badge">Developer</span></p>
                     <p><strong>Email:</strong> 020101899f@uandina.edu.pe</p>
                     <p><strong>Responsabilidades:</strong> Frontend, integración, testing</p>
                 </div>
             </div>
 
             <h3>Información Institucional</h3>
-            <div class="card" style="border-left-color: #047857;">
-                <h4>📚 Escuela Profesional de Ingeniería de Sistemas</h4>
-                <p><strong>Institución:</strong> Universidad Andina del Cusco</p>
-                <p><strong>Facultad:</strong> Ingeniería y Arquitectura</p>
-                <p><strong>Asignatura:</strong> Inteligencia Artificial - 10A</p>
-                <p><strong>Docente:</strong> Mg. Ing. Hugo Espetia Huamanga</p>
-                <p><strong>Ubicación:</strong> Cusco, Perú</p>
-                <p><strong>Período:</strong> 2025 - II</p>
+            <div class="card" style="border-left-color: #0047AB; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">
+                <h4><i class="fas fa-university"></i> Escuela Profesional de Ingeniería de Sistemas</h4>
+                <p><strong><i class="fas fa-building"></i> Institución:</strong> Universidad Andina del Cusco</p>
+                <p><strong><i class="fas fa-building"></i> Facultad:</strong> Ingeniería y Arquitectura</p>
+                <p><strong><i class="fas fa-book"></i> Asignatura:</strong> Inteligencia Artificial - 10A</p>
+                <p><strong><i class="fas fa-chalkboard"></i> Docente:</strong> Mg. Ing. Hugo Espetia Huamanga</p>
+                <p><strong><i class="fas fa-map-marker"></i> Ubicación:</strong> Cusco, Perú</p>
+                <p><strong><i class="fas fa-calendar"></i> Período:</strong> 2025 - II</p>
             </div>
 
             <h3>Metodologías Utilizadas</h3>
             <div class="grid">
                 <div class="card">
-                    <h4>🔄 Scrum</h4>
+                    <h4><i class="fas fa-redo"></i> Scrum</h4>
                     <p>Marco ágil para gestión de proyecto. 5 sprints de 1 semana cada uno, reuniones diarias, retrospectivas.</p>
                 </div>
                 <div class="card">
-                    <h4>📊 CRISP-DM</h4>
+                    <h4><i class="fas fa-chart-line"></i> CRISP-DM</h4>
                     <p>Proceso estructurado para IA. Fases: comprensión, datos, preparación, modelado, evaluación, despliegue.</p>
                 </div>
             </div>
@@ -985,13 +1163,16 @@
 
     <!-- Footer -->
     <footer>
-        <p><strong>Chatbot Willay</strong> - Sistema de Asistencia Educativa con LLM Local</p>
-        <p>Desarrollo: Equipo Blinders | Universidad Andina del Cusco | 2025</p>
-        <p>Octubre - Noviembre 2025 | Infografía Interactiva</p>
+        <p><strong><i class="fas fa-robot"></i> Chatbot Willay</strong> - Sistema de Asistencia Educativa con LLM Local</p>
+        <p><i class="fas fa-link"></i> Acceso: <strong>http://192.168.41.137</strong></p>
+        <p>Desarrollo: <strong>Equipo Blinders</strong> | Universidad Andina del Cusco | 2025</p>
+        <p><small><i class="fas fa-code"></i> Octubre - Noviembre 2025 | Infografía Interactiva Profesional</small></p>
     </footer>
 
     <script>
-        function showSection(sectionId) {
+        function showSection(event, sectionId) {
+            event.preventDefault();
+            
             // Hide all sections
             const sections = document.querySelectorAll('section');
             sections.forEach(section => section.classList.remove('active'));
@@ -1002,11 +1183,16 @@
             // Update navigation
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => link.classList.remove('active'));
-            event.target.classList.add('active');
+            event.target.closest('.nav-link').classList.add('active');
 
             // Scroll to top
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // Set home as active on load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('[onclick*="inicio"]').classList.add('active');
+        });
     </script>
 </body>
 </html>
