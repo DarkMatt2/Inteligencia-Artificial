@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NMT Project - Neural Machine Translation</title>
+    <title>Infografía NMT - Comparación BLEU vs Tiempo</title>
     <style>
         * {
             margin: 0;
@@ -11,32 +11,87 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: #e0e0e0;
             line-height: 1.6;
-            padding: 20px;
+        }
+
+        /* NAVIGATION BAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .nav-logo {
+            font-size: 1.5em;
+            font-weight: 900;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* SECTIONS */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 40px 60px;
         }
 
         .container {
             max-width: 1400px;
-            margin: 0 auto;
-            background: rgba(20, 20, 30, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
+            width: 100%;
         }
 
-        .header {
+        /* HERO SECTION */
+        .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 60px 40px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .header::before {
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
@@ -47,69 +102,74 @@
             opacity: 0.3;
         }
 
-        .header h1 {
-            font-size: 3.5em;
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4.5em;
             font-weight: 900;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
             letter-spacing: 2px;
         }
 
-        .header .subtitle {
-            font-size: 1.4em;
+        .hero .subtitle {
+            font-size: 1.8em;
             font-weight: 300;
+            margin-bottom: 30px;
             opacity: 0.95;
-            margin-top: 10px;
+        }
+
+        .hero .badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 20px;
-            border-radius: 20px;
-            margin: 10px 5px;
-            font-size: 0.9em;
-            font-weight: 600;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1em;
             backdrop-filter: blur(10px);
         }
 
-        .content {
-            padding: 60px 40px;
+        /* SECTION TITLE */
+        .section-title {
+            font-size: 3em;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .section {
+        /* COMPARISON GRID */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
             margin-bottom: 60px;
         }
 
-        .section-title {
-            font-size: 2.2em;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: #667eea;
-            border-left: 6px solid #667eea;
-            padding-left: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .card {
+        .model-card {
             background: linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%);
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .card::before {
+        .model-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -118,513 +178,706 @@
             height: 100%;
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
+        .model-card:hover {
+            transform: translateY(-15px) scale(1.03);
             border-color: #667eea;
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.5);
         }
 
-        .card:hover::before {
+        .model-card:hover::before {
             opacity: 1;
         }
 
-        .card-title {
-            font-size: 1.5em;
-            font-weight: 700;
-            margin-bottom: 15px;
+        .model-card.winner {
+            border: 4px solid #ffd700;
+            background: linear-gradient(135deg, #2a2a3e 0%, #3a3a4e 100%);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .model-card.winner::after {
+            content: '🏆';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 3em;
+            opacity: 0.3;
+        }
+
+        .model-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .model-name {
+            font-size: 1.8em;
+            font-weight: 800;
             color: #a78bfa;
+            margin-bottom: 25px;
             position: relative;
             z-index: 1;
         }
 
-        .card-content {
-            font-size: 1em;
-            color: #c4c4c4;
-            line-height: 1.8;
+        .model-metric {
+            margin: 20px 0;
             position: relative;
             z-index: 1;
-        }
-
-        .metric {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .metric:last-child {
-            border-bottom: none;
         }
 
         .metric-label {
+            font-size: 0.9em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             font-weight: 600;
-            color: #a78bfa;
+            margin-bottom: 8px;
         }
 
         .metric-value {
-            font-size: 1.2em;
-            font-weight: 700;
+            font-size: 2.5em;
+            font-weight: 900;
             color: #667eea;
         }
 
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
+        .metric-value.highlight {
+            color: #ffd700;
+            font-size: 3em;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
         }
 
-        .tech-item {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 0.95em;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
+        .metric-value.na {
+            color: #555;
+            font-size: 2em;
         }
 
-        .tech-item:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        /* CHARTS SECTION */
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
         }
 
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
-            background: rgba(30, 30, 46, 0.8);
-            border-radius: 10px;
-            overflow: hidden;
+        .chart-box {
+            background: rgba(30, 30, 46, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .comparison-table th {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 18px;
-            text-align: left;
-            font-weight: 700;
+        .chart-title {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: #a78bfa;
+            margin-bottom: 30px;
+            text-align: center;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .comparison-table td {
-            padding: 15px 18px;
+        .bars-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 350px;
+            padding: 20px 0;
+        }
+
+        .bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 20%;
+        }
+
+        .bar {
+            width: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px 12px 0 0;
+            position: relative;
+            transition: all 0.4s ease;
+            box-shadow: 0 -4px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .bar:hover {
+            transform: scaleY(1.05);
+            box-shadow: 0 -6px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .bar.winner-bar {
+            background: linear-gradient(180deg, #ffd700 0%, #f39c12 100%);
+            box-shadow: 0 -4px 25px rgba(255, 215, 0, 0.5);
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5em;
+            font-weight: 900;
+            color: #e0e0e0;
+            white-space: nowrap;
+        }
+
+        .bar-label {
+            margin-top: 15px;
+            font-size: 0.95em;
+            font-weight: 700;
+            color: #c4c4c4;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* BLEU COMPARISON TABLE */
+        .bleu-table {
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .bleu-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            padding: 20px;
+            margin: 10px 0;
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .bleu-row:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateX(10px);
+        }
+
+        .bleu-row.winner-row {
+            border-left-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .bleu-model {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #a78bfa;
+        }
+
+        .bleu-score {
+            font-size: 1.8em;
+            font-weight: 900;
+            color: #667eea;
+            text-align: right;
+        }
+
+        .bleu-score.winner-score {
+            color: #ffd700;
+        }
+
+        /* KEY FINDINGS */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .finding-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .finding-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .finding-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .finding-title {
+            font-size: 1.6em;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .finding-text {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* CONTEXT SECTION */
+        .context-section {
+            background: rgba(20, 20, 30, 0.95);
+        }
+
+        .context-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .context-card {
+            background: linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .context-card h3 {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: #a78bfa;
+            margin-bottom: 20px;
+        }
+
+        .context-card p {
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: #c4c4c4;
+        }
+
+        .context-card ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .context-card li {
+            padding: 12px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.05em;
+            color: #c4c4c4;
         }
 
-        .comparison-table tr:hover {
-            background: rgba(102, 126, 234, 0.1);
+        .context-card li:last-child {
+            border-bottom: none;
         }
 
-        .highlight {
+        .context-card li strong {
             color: #667eea;
             font-weight: 700;
         }
 
-        .code-block {
-            background: #1a1a2e;
-            padding: 25px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-            margin: 20px 0;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95em;
-        }
-
-        .icon {
-            font-size: 2.5em;
-            margin-bottom: 15px;
-            display: block;
-        }
-
+        /* FOOTER */
         .footer {
-            background: #1a1a2e;
-            padding: 40px;
+            background: rgba(20, 20, 30, 0.98);
+            padding: 50px 40px;
             text-align: center;
             border-top: 2px solid rgba(102, 126, 234, 0.3);
         }
 
-        .footer p {
-            color: #888;
-            margin: 10px 0;
+        .footer-title {
+            font-size: 2em;
+            font-weight: 900;
+            color: #667eea;
+            margin-bottom: 15px;
         }
 
-        .team-name {
-            font-size: 1.5em;
-            font-weight: 700;
+        .footer-subtitle {
+            font-size: 1.1em;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .footer-link {
             color: #667eea;
-            margin-top: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #a78bfa;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .comparison-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+
+            .findings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .context-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2em;
+            .comparison-grid {
+                grid-template-columns: 1fr;
             }
-            
-            .content {
-                padding: 30px 20px;
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
             }
 
             .section-title {
-                font-size: 1.6em;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
+                font-size: 2em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- HEADER -->
-        <div class="header">
-            <h1>🤖 NEURAL MACHINE TRANSLATION</h1>
-            <p class="subtitle">Implementación y Comparación de Modelos de Traducción Automática</p>
-            <div>
-                <span class="badge">🇪🇸 Español → English 🇬🇧</span>
-                <span class="badge">🔥 PyTorch 2.0+</span>
-                <span class="badge">⚡ 4 Arquitecturas</span>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">🤖 NMT</div>
+            <div class="nav-links">
+                <a href="#inicio">Inicio</a>
+                <a href="#comparacion">Comparación</a>
+                <a href="#metricas">Métricas BLEU</a>
+                <a href="#tiempos">Tiempos</a>
+                <a href="#hallazgos">Hallazgos</a>
+                <a href="#contexto">Contexto</a>
             </div>
         </div>
+    </nav>
 
-        <!-- CONTENT -->
-        <div class="content">
+    <!-- HERO SECTION -->
+    <section id="inicio" class="section hero">
+        <div class="hero-content">
+            <h1>🤖 NEURAL MACHINE TRANSLATION</h1>
+            <p class="subtitle">Comparación de Arquitecturas: BLEU Score vs Tiempo de Entrenamiento</p>
+            <div class="badges">
+                <span class="badge">🇪🇸 Español → English 🇬🇧</span>
+                <span class="badge">🔥 4 Arquitecturas</span>
+                <span class="badge">⚡ PyTorch 2.0</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPARISON SECTION -->
+    <section id="comparacion" class="section">
+        <div class="container">
+            <h2 class="section-title">📊 Comparación de Modelos</h2>
             
-            <!-- OVERVIEW -->
-            <div class="section">
-                <h2 class="section-title">📋 Resumen del Proyecto</h2>
-                <div class="card">
-                    <p class="card-content">
-                        Este proyecto implementa y compara <strong>cuatro arquitecturas neuronales</strong> para traducción automática: 
-                        <strong>RNN Simple</strong>, <strong>LSTM con Atención Bahdanau</strong>, <strong>GRU con Atención Bahdanau</strong> 
-                        y <strong>Transformer</strong>. El objetivo es analizar el impacto de los mecanismos de atención y la arquitectura 
-                        en la calidad de traducción medida con <strong>BLEU Score</strong>.
+            <div class="comparison-grid">
+                <div class="model-card">
+                    <div class="model-icon">🔵</div>
+                    <div class="model-name">RNN Simple</div>
+                    <div class="model-metric">
+                        <div class="metric-label">BLEU Score</div>
+                        <div class="metric-value na">N/A</div>
+                    </div>
+                    <div class="model-metric">
+                        <div class="metric-label">Tiempo</div>
+                        <div class="metric-value">0.1 min</div>
+                    </div>
+                    <div class="model-metric">
+                        <div class="metric-label">Parámetros</div>
+                        <div class="metric-value" style="font-size: 1.8em;">1.9M</div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-icon">🔴</div>
+                    <div class="model-name">LSTM + Atención</div>
+                    <div class="model-metric">
+                        <div class="metric-label">BLEU Score</div>
+                        <div class="metric-value na">N/A</div>
+                    </div>
+                    <div class="model-metric">
+                        <div class="metric-label">Tiempo</div>
+                        <div class="metric-value">0.8 min</div>
+                    </div>
+                    <div class="model-metric">
+                        <div class="metric-label">Parámetros</div>
+                        <div class="metric-value" style="font-size: 1.8em;">15.9M</div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-icon">🟢</div>
+                    <div class="model-name">GRU + Atención</div>
+                    <div class="model-metric">
+                        <div class="metric-label">BLEU Score</div>
+                        <div class="metric-value na">N/A</div>
+                    </div>
+                    <div class="model-metric">
+                        <div class="metric-label">Tiempo</div>
+                        <div class="metric-value">0.6 min</div>
+                    </div>
+                    <div class="model-metric">
+                        <div class="metric-label">Parámetros</div>
+                        <div class="metric-value" style="font-size: 1.8em;">11.9M</div>
+                    </div>
+                </div>
+
+                <div class="model-card winner">
+                    <div class="model-icon">🟣</div>
+                    <div class="model-name">Transformer</div>
+                    <div class="model-metric">
+                        <div class="metric-label">BLEU Score</div>
+                        <div class="metric-value highlight">0.03</div>
+                    </div>
+                    <div class="model-metric">
+                        <div class="metric-label">Tiempo</div>
+                        <div class="metric-value">0.3 min</div>
+                    </div>
+                    <div class="model-metric">
+                        <div class="metric-label">Parámetros</div>
+                        <div class="metric-value" style="font-size: 1.8em;">3.8M</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLEU METRICS SECTION -->
+    <section id="metricas" class="section" style="background: rgba(20, 20, 30, 0.95);">
+        <div class="container">
+            <h2 class="section-title">🎯 Métricas BLEU Score</h2>
+            
+            <div class="charts-container">
+                <div class="chart-box">
+                    <div class="chart-title">📈 BLEU Score por Modelo</div>
+                    <div class="bleu-table">
+                        <div class="bleu-row">
+                            <div class="bleu-model">🔵 RNN Simple</div>
+                            <div class="bleu-score" style="color: #555;">N/A</div>
+                        </div>
+                        <div class="bleu-row">
+                            <div class="bleu-model">🔴 LSTM + Atención</div>
+                            <div class="bleu-score" style="color: #555;">N/A</div>
+                        </div>
+                        <div class="bleu-row">
+                            <div class="bleu-model">🟢 GRU + Atención</div>
+                            <div class="bleu-score" style="color: #555;">N/A</div>
+                        </div>
+                        <div class="bleu-row winner-row">
+                            <div class="bleu-model">🟣 Transformer 🏆</div>
+                            <div class="bleu-score winner-score">0.03</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-box">
+                    <div class="chart-title">📊 Interpretación BLEU</div>
+                    <p style="font-size: 1.1em; line-height: 1.8; color: #c4c4c4; margin-top: 20px;">
+                        El <strong style="color: #ffd700;">Transformer</strong> es el único modelo que generó traducciones evaluables, 
+                        obteniendo un BLEU de <strong style="color: #ffd700;">0.03</strong>. 
+                    </p>
+                    <p style="font-size: 1.05em; line-height: 1.8; color: #c4c4c4; margin-top: 20px;">
+                        Los modelos <strong style="color: #a78bfa;">RNN, LSTM y GRU</strong> no lograron producir traducciones 
+                        válidas suficientes para calcular BLEU, demostrando limitaciones en la captura de patrones lingüísticos complejos.
+                    </p>
+                    <p style="font-size: 1.05em; line-height: 1.8; color: #888; margin-top: 25px; font-style: italic;">
+                        💡 <strong>Nota:</strong> Aunque el BLEU de 0.03 es bajo, refleja la dificultad del corpus y el tamaño 
+                        limitado del dataset de entrenamiento utilizado.
                     </p>
                 </div>
             </div>
-
-            <!-- MODELS -->
-            <div class="section">
-                <h2 class="section-title">🏗️ Arquitecturas Implementadas</h2>
-                <div class="grid">
-                    <div class="card">
-                        <span class="icon">🔵</span>
-                        <h3 class="card-title">RNN Simple</h3>
-                        <div class="card-content">
-                            <div class="metric">
-                                <span class="metric-label">Parámetros:</span>
-                                <span class="metric-value">1.9M</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Tiempo:</span>
-                                <span class="metric-value">0.1 min</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">BLEU:</span>
-                                <span class="metric-value">N/A</span>
-                            </div>
-                            <p style="margin-top: 15px; font-size: 0.9em;">
-                                Arquitectura base sin atención. Rápida pero limitada en capturar dependencias largas.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <span class="icon">🔴</span>
-                        <h3 class="card-title">LSTM + Atención</h3>
-                        <div class="card-content">
-                            <div class="metric">
-                                <span class="metric-label">Parámetros:</span>
-                                <span class="metric-value">15.9M</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Tiempo:</span>
-                                <span class="metric-value">0.8 min</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">BLEU:</span>
-                                <span class="metric-value">N/A</span>
-                            </div>
-                            <p style="margin-top: 15px; font-size: 0.9em;">
-                                LSTM bidireccional con mecanismo Bahdanau. Mayor capacidad de memoria pero entrenamiento más lento.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <span class="icon">🟢</span>
-                        <h3 class="card-title">GRU + Atención</h3>
-                        <div class="card-content">
-                            <div class="metric">
-                                <span class="metric-label">Parámetros:</span>
-                                <span class="metric-value">11.9M</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Tiempo:</span>
-                                <span class="metric-value">0.6 min</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">BLEU:</span>
-                                <span class="metric-value">N/A</span>
-                            </div>
-                            <p style="margin-top: 15px; font-size: 0.9em;">
-                                GRU con Bahdanau. Balance entre complejidad y eficiencia computacional.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <span class="icon">🟣</span>
-                        <h3 class="card-title">Transformer</h3>
-                        <div class="card-content">
-                            <div class="metric">
-                                <span class="metric-label">Parámetros:</span>
-                                <span class="metric-value">3.8M</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Tiempo:</span>
-                                <span class="metric-value">0.3 min</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">BLEU:</span>
-                                <span class="metric-value">0.03</span>
-                            </div>
-                            <p style="margin-top: 15px; font-size: 0.9em;">
-                                🏆 <strong>GANADOR</strong>: Autoatención paralela. Mejor BLEU y tiempo intermedio.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- COMPARISON TABLE -->
-            <div class="section">
-                <h2 class="section-title">📊 Comparación de Modelos</h2>
-                <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Modelo</th>
-                            <th>Parámetros</th>
-                            <th>Épocas</th>
-                            <th>Tiempo (min)</th>
-                            <th>Valid Loss</th>
-                            <th>BLEU</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>RNN_Simple</strong></td>
-                            <td>1,941,604</td>
-                            <td>20</td>
-                            <td>0.1</td>
-                            <td>0.0001</td>
-                            <td>N/A</td>
-                        </tr>
-                        <tr>
-                            <td><strong>LSTM_Attention</strong></td>
-                            <td>15,934,052</td>
-                            <td>20</td>
-                            <td>0.8</td>
-                            <td>0.0002</td>
-                            <td>N/A</td>
-                        </tr>
-                        <tr>
-                            <td><strong>GRU_Attention</strong></td>
-                            <td>11,864,164</td>
-                            <td>20</td>
-                            <td>0.6</td>
-                            <td>0.0000</td>
-                            <td>N/A</td>
-                        </tr>
-                        <tr style="background: rgba(102, 126, 234, 0.2);">
-                            <td><strong class="highlight">Transformer 🏆</strong></td>
-                            <td class="highlight">3,763,300</td>
-                            <td>20</td>
-                            <td class="highlight">0.3</td>
-                            <td class="highlight">0.0000</td>
-                            <td class="highlight">0.03</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- CONFIGURATION -->
-            <div class="section">
-                <h2 class="section-title">⚙️ Configuración de Entrenamiento</h2>
-                <div class="grid">
-                    <div class="card">
-                        <h3 class="card-title">Hiperparámetros Generales</h3>
-                        <div class="card-content">
-                            <div class="metric">
-                                <span class="metric-label">Batch Size:</span>
-                                <span class="metric-value">64</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Learning Rate:</span>
-                                <span class="metric-value">0.001</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Optimizador:</span>
-                                <span class="metric-value">Adam</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Épocas:</span>
-                                <span class="metric-value">20</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Early Stopping:</span>
-                                <span class="metric-value">Paciencia = 5</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3 class="card-title">Datos & Preprocesamiento</h3>
-                        <div class="card-content">
-                            <div class="metric">
-                                <span class="metric-label">Corpus:</span>
-                                <span class="metric-value">OPUS Tatoeba</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Vocab Size:</span>
-                                <span class="metric-value">16,000</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Tokenizer:</span>
-                                <span class="metric-value">SentencePiece</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Max Length:</span>
-                                <span class="metric-value">50 tokens</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Train/Val/Test:</span>
-                                <span class="metric-value">80/10/10</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TECH STACK -->
-            <div class="section">
-                <h2 class="section-title">🛠️ Tech Stack</h2>
-                <div class="tech-stack">
-                    <span class="tech-item">🔥 PyTorch 2.0+</span>
-                    <span class="tech-item">🤗 SentencePiece</span>
-                    <span class="tech-item">📊 Matplotlib & Seaborn</span>
-                    <span class="tech-item">📈 BLEU Score (SacreBLEU)</span>
-                    <span class="tech-item">🗄️ OPUS Datasets</span>
-                    <span class="tech-item">🐍 Python 3.8+</span>
-                    <span class="tech-item">🧮 NumPy & Pandas</span>
-                    <span class="tech-item">⚡ CUDA Support</span>
-                </div>
-            </div>
-
-            <!-- PROJECT STRUCTURE -->
-            <div class="section">
-                <h2 class="section-title">📁 Estructura del Proyecto</h2>
-                <div class="code-block">
-project_nmt/
-├── src/
-│   ├── download_data.py          # Descarga corpus OPUS
-│   ├── preprocess.py              # Tokenización con SentencePiece
-│   ├── dataset.py                 # DataLoaders
-│   ├── model_rnn.py               # Modelo RNN Simple
-│   ├── model_lstm_attention.py    # LSTM + Bahdanau
-│   ├── model_gru_attention.py     # GRU + Bahdanau
-│   ├── model_transformer.py       # Transformer
-│   ├── train.py                   # Entrenamiento
-│   ├── evaluate.py                # Evaluación BLEU
-│   └── visualize.py               # Generación de gráficos
-├── config.py                      # Configuración centralizada
-├── main.py                        # Pipeline completo
-├── requirements.txt               # Dependencias
-└── README.md                      # Documentación
-                </div>
-            </div>
-
-            <!-- HOW TO RUN -->
-            <div class="section">
-                <h2 class="section-title">🚀 Cómo Ejecutar</h2>
-                <div class="code-block">
-# 1. Clonar repositorio
-git clone https://github.com/tu-usuario/nmt-project.git
-cd nmt-project
-
-# 2. Instalar dependencias
-pip install -r requirements.txt
-
-# 3. Descargar y preparar datos
-python src/download_data.py
-python src/preprocess.py
-
-# 4. Entrenar todos los modelos
-python main.py
-
-# 5. Evaluar modelos existentes (skip training)
-python main.py --skip-training
-                </div>
-            </div>
-
-            <!-- KEY FINDINGS -->
-            <div class="section">
-                <h2 class="section-title">🔍 Hallazgos Clave</h2>
-                <div class="grid">
-                    <div class="card">
-                        <h3 class="card-title">🏆 Mejor Modelo</h3>
-                        <p class="card-content">
-                            El <strong>Transformer</strong> superó a todos los modelos recurrentes en BLEU Score (0.03) 
-                            con menor cantidad de parámetros (3.8M) y tiempo de entrenamiento intermedio (0.3 min).
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <h3 class="card-title">⚡ Eficiencia</h3>
-                        <p class="card-content">
-                            El procesamiento paralelo del Transformer lo hace <strong>2-3x más rápido</strong> que 
-                            LSTM/GRU con atención, a pesar de su sofisticación arquitectónica.
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <h3 class="card-title">🎯 Atención</h3>
-                        <p class="card-content">
-                            Los mecanismos de atención son <strong>fundamentales</strong> para NMT. Los modelos sin 
-                            atención (RNN Simple) no generaron traducciones evaluables.
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <h3 class="card-title">📉 Trade-offs</h3>
-                        <p class="card-content">
-                            LSTM tiene <strong>4.2x más parámetros</strong> que Transformer pero <strong>no supera</strong> 
-                            su rendimiento. Más parámetros ≠ mejor calidad.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
         </div>
+    </section>
 
-        <!-- FOOTER -->
-        <div class="footer">
-            <p class="team-name">🔥 Equipo Blinders 🔥</p>
-            <p>Universidad Andina del Cusco | Ingeniería de Sistemas</p>
-            <p>Inteligencia Artificial - 10A | 2025-II</p>
-            <p style="margin-top: 20px; color: #667eea;">
-                📧 Contacto: equipo.blinders@uandina.edu.pe
-            </p>
-            <p style="margin-top: 10px; font-size: 0.9em;">
-                ⭐ Si te gustó el proyecto, déjanos una estrella en GitHub
-            </p>
+    <!-- TRAINING TIME SECTION -->
+    <section id="tiempos" class="section">
+        <div class="container">
+            <h2 class="section-title">⏱️ Tiempo de Entrenamiento</h2>
+            
+            <div class="chart-box" style="max-width: 900px; margin: 0 auto;">
+                <div class="chart-title">Comparación de Tiempos (20 Épocas)</div>
+                <div class="bars-container">
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 12.5%;">
+                            <div class="bar-value">0.1 min</div>
+                        </div>
+                        <div class="bar-label">RNN<br>Simple</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar winner-bar" style="height: 37.5%;">
+                            <div class="bar-value">0.3 min</div>
+                        </div>
+                        <div class="bar-label">Transformer<br>🏆</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 75%;">
+                            <div class="bar-value">0.6 min</div>
+                        </div>
+                        <div class="bar-label">GRU +<br>Atención</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 100%;">
+                            <div class="bar-value">0.8 min</div>
+                        </div>
+                        <div class="bar-label">LSTM +<br>Atención</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 50px; padding: 30px; background: rgba(102, 126, 234, 0.1); border-radius: 15px; border-left: 5px solid #667eea;">
+                    <h3 style="font-size: 1.5em; font-weight: 800; color: #a78bfa; margin-bottom: 15px;">
+                        ⚡ Análisis de Eficiencia
+                    </h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; color: #c4c4c4;">
+                        El <strong style="color: #ffd700;">Transformer</strong> entrena <strong>2-3x más rápido</strong> que 
+                        los modelos recurrentes con atención (LSTM/GRU) gracias a su capacidad de <strong>procesamiento paralelo</strong>, 
+                        superando la naturaleza secuencial de las arquitecturas recurrentes.
+                    </p>
+                    <p style="font-size: 1.05em; line-height: 1.8; color: #888; margin-top: 15px;">
+                        El RNN Simple es el más rápido (0.1 min) pero falla en generar traducciones evaluables, confirmando 
+                        que la velocidad sin capacidad de representación es insuficiente para NMT.
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- KEY FINDINGS SECTION -->
+    <section id="hallazgos" class="section" style="background: rgba(20, 20, 30, 0.95);">
+        <div class="container">
+            <h2 class="section-title">🔍 Hallazgos Principales</h2>
+            
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <div class="finding-icon">🏆</div>
+                    <div class="finding-title">Transformer: Ganador Absoluto</div>
+                    <div class="finding-text">
+                        El Transformer supera a todos los modelos recurrentes en BLEU Score (0.03), siendo el <strong>único modelo 
+                        con traducciones evaluables</strong>. Logra el mejor balance entre calidad de traducción, eficiencia 
+                        computacional (0.3 min) y cantidad de parámetros (3.8M).
+                    </div>
+                </div>
+
+                <div class="finding-card">
+                    <div class="finding-icon">⚡</div>
+                    <div class="finding-title">Procesamiento Paralelo = Eficiencia</div>
+                    <div class="finding-text">
+                        El mecanismo de <strong>autoatención del Transformer</strong> permite procesamiento paralelo, resultando 
+                        en tiempos de entrenamiento 2-3x más rápidos que LSTM/GRU con atención, a pesar de su sofisticación 
+                        arquitectónica. Paralelización > Secuencialidad.
+                    </div>
+                </div>
+
+                <div class="finding-card">
+                    <div class="finding-icon">🎯</div>
+                    <div class="finding-title">Atención: Factor Crítico</div>
+                    <div class="finding-text">
+                        Los mecanismos de <strong>atención son fundamentales</strong> para NMT. El RNN Simple (sin atención) 
+                        no generó traducciones evaluables (BLEU N/A), demostrando que la capacidad de enfocarse en partes 
+                        relevantes de la entrada es esencial para traducción de calidad.
+                    </div>
+                </div>
+
+                <div class="finding-card">
+                    <div class="finding-icon">📉</div>
+                    <div class="finding-title">Más Parámetros ≠ Mejor Rendimiento</div>
+                    <div class="finding-text">
+                        El LSTM_Attention tiene <strong>4.2x más parámetros</strong> (15.9M) que el Transformer (3.8M) pero 
+                        <strong>no supera su rendimiento</strong>. Esto confirma que una arquitectura inteligente con autoatención 
+                        es más efectiva que simplemente aumentar la complejidad del modelo.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTEXT SECTION -->
+    <section id="contexto" class="section context-section">
+        <div class="container">
+            <h2 class="section-title">📚 Contexto del Experimento</h2>
+            
+            <div class="context-grid">
+                <div class="context-card">
+                    <h3>🗄️ Datos y Preprocesamiento</h3>
+                    <ul>
+                        <li><strong>Corpus:</strong> OPUS Tatoeba (Español-Inglés)</li>
+                        <li><strong>Tokenizer:</strong> SentencePiece (Vocab = 16,000)</li>
+                        <li><strong>Longitud máxima:</strong> 50 tokens</li>
+                        <li><strong>Split:</strong> 80% Train / 10% Val / 10% Test</li>
+                        <li><strong>Tamaño dataset:</strong> Corpus moderado (~20k pares)</li>
+                    </ul>
+                </div>
+
+                <div class="context-card">
+                    <h3>⚙️ Configuración de Entrenamiento</h3>
+                    <ul>
+                        <li><strong>Épocas:</strong> 20</li>
+                        <li><strong>Batch size:</strong> 64</li>
+                        <li><strong>Learning rate:</strong> 0.001</li>
+                        <li><strong>Optimizador:</strong> Adam</li>
+                        <li><strong>Early stopping:</strong> Paciencia = 5</li>
+                        <li><strong>Gradient clipping:</strong> 1.0</li>
+                    </ul>
+                </div>
+
+                <div class="context-card">
+                    <h3>🏗️ Arquitecturas Comparadas</h3>
+                    <p>
+                        Se implementaron <strong>4 arquitecturas neuronales</strong> para evaluar el impacto de los mecanismos 
+                        de atención y el paralelismo en la traducción automática:
+                    </p>
+                    <ul style="margin-top: 15px;">
+                        <li><strong>RNN Simple:</strong> Arquitectura base sin atención</li>
+                        <li><strong>LSTM + Bahdanau:</strong> Memoria a largo plazo con atención aditiva</li>
+                        <li><strong>GRU + Bahdanau:</strong> Arquitectura intermedia con atención</li>
+                        <li><strong>Transformer:</strong> Autoatención multi-cabeza con procesamiento paralelo</li>
+                    </ul>
+                </div>
+
+                <div class="context-card">
+                    <h3>🎯 Objetivo del Estudio</h3>
+                    <p>
+                        Analizar y comparar el <strong>desempeño de diferentes arquitecturas neuronales</strong> en traducción 
+                        automática, enfocándose en:
+                    </p>
+                    <ul style="margin-top: 15px;">
+                        <li><strong>Calidad de traducción</strong> medida con BLEU Score</li>
+                        <li><strong>Eficiencia computacional</strong> en tiempo de entrenamiento</li>
+                        <li><strong>Trade-offs</strong> entre complejidad y rendimiento</li>
+                        <li><strong>Impacto de mecanismos de atención</strong> en la calidad final</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-title">🔥 Equipo Blinders 🔥</div>
+        <div class="footer-subtitle">Universidad Andina del Cusco | Ingeniería de Sistemas</div>
+        <div class="footer-subtitle">Inteligencia Artificial - 10A | 2025-II</div>
+        <div class="footer-subtitle" style="margin-top: 15px; font-size: 0.95em;">
+            Docente: Mg. Ing. Hugo Espetia Huamanga
+        </div>
+        <div class="footer-links">
+            <a href="https://github.com/equipo-blinders/nmt-project" class="footer-link">📂 GitHub</a>
+            <a href="#inicio" class="footer-link">⬆️ Volver Arriba</a>
+        </div>
+        <p style="margin-top: 25px; color: #555; font-size: 0.9em;">
+            © 2025 Equipo Blinders. Todos los derechos reservados.
+        </p>
+    </footer>
+
 </body>
 </html>
