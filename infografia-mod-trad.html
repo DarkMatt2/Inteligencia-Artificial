@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NMT Project - Neural Machine Translation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(20, 20, 30, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            font-size: 1.4em;
+            font-weight: 300;
+            opacity: 0.95;
+            margin-top: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin: 10px 5px;
+            font-size: 0.9em;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .content {
+            padding: 60px 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #667eea;
+            border-left: 6px solid #667eea;
+            padding-left: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #667eea;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #a78bfa;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-content {
+            font-size: 1em;
+            color: #c4c4c4;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-weight: 600;
+            color: #a78bfa;
+        }
+
+        .metric-value {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95em;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 18px;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .comparison-table td {
+            padding: 15px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .highlight {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .code-block {
+            background: #1a1a2e;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer {
+            background: #1a1a2e;
+            padding: 40px;
+            text-align: center;
+            border-top: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .footer p {
+            color: #888;
+            margin: 10px 0;
+        }
+
+        .team-name {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #667eea;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+
+            .section-title {
+                font-size: 1.6em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🤖 NEURAL MACHINE TRANSLATION</h1>
+            <p class="subtitle">Implementación y Comparación de Modelos de Traducción Automática</p>
+            <div>
+                <span class="badge">🇪🇸 Español → English 🇬🇧</span>
+                <span class="badge">🔥 PyTorch 2.0+</span>
+                <span class="badge">⚡ 4 Arquitecturas</span>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            
+            <!-- OVERVIEW -->
+            <div class="section">
+                <h2 class="section-title">📋 Resumen del Proyecto</h2>
+                <div class="card">
+                    <p class="card-content">
+                        Este proyecto implementa y compara <strong>cuatro arquitecturas neuronales</strong> para traducción automática: 
+                        <strong>RNN Simple</strong>, <strong>LSTM con Atención Bahdanau</strong>, <strong>GRU con Atención Bahdanau</strong> 
+                        y <strong>Transformer</strong>. El objetivo es analizar el impacto de los mecanismos de atención y la arquitectura 
+                        en la calidad de traducción medida con <strong>BLEU Score</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- MODELS -->
+            <div class="section">
+                <h2 class="section-title">🏗️ Arquitecturas Implementadas</h2>
+                <div class="grid">
+                    <div class="card">
+                        <span class="icon">🔵</span>
+                        <h3 class="card-title">RNN Simple</h3>
+                        <div class="card-content">
+                            <div class="metric">
+                                <span class="metric-label">Parámetros:</span>
+                                <span class="metric-value">1.9M</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Tiempo:</span>
+                                <span class="metric-value">0.1 min</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">BLEU:</span>
+                                <span class="metric-value">N/A</span>
+                            </div>
+                            <p style="margin-top: 15px; font-size: 0.9em;">
+                                Arquitectura base sin atención. Rápida pero limitada en capturar dependencias largas.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <span class="icon">🔴</span>
+                        <h3 class="card-title">LSTM + Atención</h3>
+                        <div class="card-content">
+                            <div class="metric">
+                                <span class="metric-label">Parámetros:</span>
+                                <span class="metric-value">15.9M</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Tiempo:</span>
+                                <span class="metric-value">0.8 min</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">BLEU:</span>
+                                <span class="metric-value">N/A</span>
+                            </div>
+                            <p style="margin-top: 15px; font-size: 0.9em;">
+                                LSTM bidireccional con mecanismo Bahdanau. Mayor capacidad de memoria pero entrenamiento más lento.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <span class="icon">🟢</span>
+                        <h3 class="card-title">GRU + Atención</h3>
+                        <div class="card-content">
+                            <div class="metric">
+                                <span class="metric-label">Parámetros:</span>
+                                <span class="metric-value">11.9M</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Tiempo:</span>
+                                <span class="metric-value">0.6 min</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">BLEU:</span>
+                                <span class="metric-value">N/A</span>
+                            </div>
+                            <p style="margin-top: 15px; font-size: 0.9em;">
+                                GRU con Bahdanau. Balance entre complejidad y eficiencia computacional.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <span class="icon">🟣</span>
+                        <h3 class="card-title">Transformer</h3>
+                        <div class="card-content">
+                            <div class="metric">
+                                <span class="metric-label">Parámetros:</span>
+                                <span class="metric-value">3.8M</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Tiempo:</span>
+                                <span class="metric-value">0.3 min</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">BLEU:</span>
+                                <span class="metric-value">0.03</span>
+                            </div>
+                            <p style="margin-top: 15px; font-size: 0.9em;">
+                                🏆 <strong>GANADOR</strong>: Autoatención paralela. Mejor BLEU y tiempo intermedio.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPARISON TABLE -->
+            <div class="section">
+                <h2 class="section-title">📊 Comparación de Modelos</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Modelo</th>
+                            <th>Parámetros</th>
+                            <th>Épocas</th>
+                            <th>Tiempo (min)</th>
+                            <th>Valid Loss</th>
+                            <th>BLEU</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>RNN_Simple</strong></td>
+                            <td>1,941,604</td>
+                            <td>20</td>
+                            <td>0.1</td>
+                            <td>0.0001</td>
+                            <td>N/A</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LSTM_Attention</strong></td>
+                            <td>15,934,052</td>
+                            <td>20</td>
+                            <td>0.8</td>
+                            <td>0.0002</td>
+                            <td>N/A</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GRU_Attention</strong></td>
+                            <td>11,864,164</td>
+                            <td>20</td>
+                            <td>0.6</td>
+                            <td>0.0000</td>
+                            <td>N/A</td>
+                        </tr>
+                        <tr style="background: rgba(102, 126, 234, 0.2);">
+                            <td><strong class="highlight">Transformer 🏆</strong></td>
+                            <td class="highlight">3,763,300</td>
+                            <td>20</td>
+                            <td class="highlight">0.3</td>
+                            <td class="highlight">0.0000</td>
+                            <td class="highlight">0.03</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- CONFIGURATION -->
+            <div class="section">
+                <h2 class="section-title">⚙️ Configuración de Entrenamiento</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3 class="card-title">Hiperparámetros Generales</h3>
+                        <div class="card-content">
+                            <div class="metric">
+                                <span class="metric-label">Batch Size:</span>
+                                <span class="metric-value">64</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Learning Rate:</span>
+                                <span class="metric-value">0.001</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Optimizador:</span>
+                                <span class="metric-value">Adam</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Épocas:</span>
+                                <span class="metric-value">20</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Early Stopping:</span>
+                                <span class="metric-value">Paciencia = 5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Datos & Preprocesamiento</h3>
+                        <div class="card-content">
+                            <div class="metric">
+                                <span class="metric-label">Corpus:</span>
+                                <span class="metric-value">OPUS Tatoeba</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Vocab Size:</span>
+                                <span class="metric-value">16,000</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Tokenizer:</span>
+                                <span class="metric-value">SentencePiece</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Max Length:</span>
+                                <span class="metric-value">50 tokens</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Train/Val/Test:</span>
+                                <span class="metric-value">80/10/10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TECH STACK -->
+            <div class="section">
+                <h2 class="section-title">🛠️ Tech Stack</h2>
+                <div class="tech-stack">
+                    <span class="tech-item">🔥 PyTorch 2.0+</span>
+                    <span class="tech-item">🤗 SentencePiece</span>
+                    <span class="tech-item">📊 Matplotlib & Seaborn</span>
+                    <span class="tech-item">📈 BLEU Score (SacreBLEU)</span>
+                    <span class="tech-item">🗄️ OPUS Datasets</span>
+                    <span class="tech-item">🐍 Python 3.8+</span>
+                    <span class="tech-item">🧮 NumPy & Pandas</span>
+                    <span class="tech-item">⚡ CUDA Support</span>
+                </div>
+            </div>
+
+            <!-- PROJECT STRUCTURE -->
+            <div class="section">
+                <h2 class="section-title">📁 Estructura del Proyecto</h2>
+                <div class="code-block">
+project_nmt/
+├── src/
+│   ├── download_data.py          # Descarga corpus OPUS
+│   ├── preprocess.py              # Tokenización con SentencePiece
+│   ├── dataset.py                 # DataLoaders
+│   ├── model_rnn.py               # Modelo RNN Simple
+│   ├── model_lstm_attention.py    # LSTM + Bahdanau
+│   ├── model_gru_attention.py     # GRU + Bahdanau
+│   ├── model_transformer.py       # Transformer
+│   ├── train.py                   # Entrenamiento
+│   ├── evaluate.py                # Evaluación BLEU
+│   └── visualize.py               # Generación de gráficos
+├── config.py                      # Configuración centralizada
+├── main.py                        # Pipeline completo
+├── requirements.txt               # Dependencias
+└── README.md                      # Documentación
+                </div>
+            </div>
+
+            <!-- HOW TO RUN -->
+            <div class="section">
+                <h2 class="section-title">🚀 Cómo Ejecutar</h2>
+                <div class="code-block">
+# 1. Clonar repositorio
+git clone https://github.com/tu-usuario/nmt-project.git
+cd nmt-project
+
+# 2. Instalar dependencias
+pip install -r requirements.txt
+
+# 3. Descargar y preparar datos
+python src/download_data.py
+python src/preprocess.py
+
+# 4. Entrenar todos los modelos
+python main.py
+
+# 5. Evaluar modelos existentes (skip training)
+python main.py --skip-training
+                </div>
+            </div>
+
+            <!-- KEY FINDINGS -->
+            <div class="section">
+                <h2 class="section-title">🔍 Hallazgos Clave</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3 class="card-title">🏆 Mejor Modelo</h3>
+                        <p class="card-content">
+                            El <strong>Transformer</strong> superó a todos los modelos recurrentes en BLEU Score (0.03) 
+                            con menor cantidad de parámetros (3.8M) y tiempo de entrenamiento intermedio (0.3 min).
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">⚡ Eficiencia</h3>
+                        <p class="card-content">
+                            El procesamiento paralelo del Transformer lo hace <strong>2-3x más rápido</strong> que 
+                            LSTM/GRU con atención, a pesar de su sofisticación arquitectónica.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">🎯 Atención</h3>
+                        <p class="card-content">
+                            Los mecanismos de atención son <strong>fundamentales</strong> para NMT. Los modelos sin 
+                            atención (RNN Simple) no generaron traducciones evaluables.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">📉 Trade-offs</h3>
+                        <p class="card-content">
+                            LSTM tiene <strong>4.2x más parámetros</strong> que Transformer pero <strong>no supera</strong> 
+                            su rendimiento. Más parámetros ≠ mejor calidad.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p class="team-name">🔥 Equipo Blinders 🔥</p>
+            <p>Universidad Andina del Cusco | Ingeniería de Sistemas</p>
+            <p>Inteligencia Artificial - 10A | 2025-II</p>
+            <p style="margin-top: 20px; color: #667eea;">
+                📧 Contacto: equipo.blinders@uandina.edu.pe
+            </p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                ⭐ Si te gustó el proyecto, déjanos una estrella en GitHub
+            </p>
+        </div>
+    </div>
+</body>
+</html>
